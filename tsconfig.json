@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "module": "system",
+        "removeComments": true
+    },
+    "include": [
+        "models", "controllers", "tests"
+    ],
+    "exclude": [
+        "node_modules",
+    ]
+}
