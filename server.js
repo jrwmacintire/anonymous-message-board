@@ -1,19 +1,19 @@
 'use strict';
 
-var express     = require('express');
-var bodyParser  = require('body-parser');
-var expect      = require('chai').expect;
-var cors        = require('cors');
-const helmet = require('helmet');
+ const express = require('express');
+ const bodyParser = require('body-parser');
+ const { expect } = require('chai');
+ const cors = require('cors');
+ const helmet = require('helmet');
 
-const dotenv = require('dotenv');
-dotenv.config();
+ const dotenv = require('dotenv');
+ dotenv.config();
 
-var apiRoutes         = require('./routes/api.js');
-var fccTestingRoutes  = require('./routes/fcctesting.js');
-var runner            = require('./test-runner');
+ const apiRoutes = require('./routes/api.js');
+ const fccTestingRoutes = require('./routes/fcctesting.js');
+ const runner = require('./test-runner');
 
-var app = express();
+const app = express();
 
 app.use(helmet());
 app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
@@ -28,17 +28,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //Sample front-end
 app.route('/b/:board/')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/board.html');
+    res.sendFile(process.cwd() + '/src/views/board.html');
   });
 app.route('/b/:board/:threadid')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/thread.html');
+    res.sendFile(process.cwd() + '/src/views/thread.html');
   });
 
 //Index page (static HTML)
 app.route('/')
   .get(function (req, res) {
-    res.sendFile(process.cwd() + '/views/index.html');
+    res.sendFile(process.cwd() + '/src/views/index.html');
   });
 
 //For FCC testing purposes

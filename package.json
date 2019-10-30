@@ -8,9 +8,9 @@
 	"main": "server.js",
 	"scripts": {
 		"start": "nodemon server.js",
-		"sass": "sass --watch sass:public",
-		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/*.css', views/*.html, routes/*.js, controllers/*.js, models/*.js",
-		"typescript": "tsc --watch"
+		"sass": "sass --watch src/sass:public/style",
+		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/*.css', src/views/*.html, routes/*.js, controllers/*.js, models/*.js",
+		"typescript": "tsc -watch"
 	},
 	"dependencies": {
 		"body-parser": "^1.15.2",
@@ -39,5 +39,9 @@
 		"hyperdev",
 		"express"
 	],
-	"license": "MIT"
+	"license": "MIT",
+	"devDependencies": {
+		"@types/mongodb": "^3.3.7",
+		"@types/mongoose": "^5.5.26"
+	}
 }

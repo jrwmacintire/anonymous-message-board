@@ -1,12 +1,16 @@
 {
     "compilerOptions": {
-        "module": "system",
-        "removeComments": true
+        "target": "es6",
+        "watch": true,
+        "lib": [
+            "dom",
+            "es2017"
+        ],
+        "outDir": "public"
     },
     "include": [
-        "models", "controllers", "tests"
-    ],
-    "exclude": [
-        "node_modules",
+        "src/controllers/*",
+        "src/models/*",
+        "src/interfaces/*"
     ]
 }
