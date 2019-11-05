@@ -1,12 +1,37 @@
-import * as mongoose from 'mongoose';
-import { ObjectID } from 'bson';
-const Schema = mongoose.Schema;
-const messageSchema = new Schema({
-    text: { type: String, unique: true },
-    status_text: { type: String, default: '' },
-    thread_id: { type: [ObjectID] },
-    created_on: { type: Date, default: new Date() },
-    reported: { type: Boolean, default: false },
-    delete_password: { type: String }
+"use strict";
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
 });
-export default mongoose.model('Message', messageSchema);
+exports["default"] = void 0;
+
+var mongoose = _interopRequireWildcard(require("mongoose"));
+
+var Schema = mongoose.Schema;
+var messageSchema = new Schema({
+  text: {
+    type: String,
+    unique: true
+  },
+  thread_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Thread'
+  },
+  created_on: {
+    type: Date,
+    "default": new Date()
+  },
+  reported: {
+    type: Boolean,
+    "default": false
+  },
+  delete_password: {
+    type: String
+  }
+});
+
+var _default = mongoose.model('Message', messageSchema);
+
+exports["default"] = _default;

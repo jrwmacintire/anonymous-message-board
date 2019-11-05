@@ -1,17 +1,17 @@
-'use strict';
+'use strict'; 
 
- const express = require('express');
- const bodyParser = require('body-parser');
- const { expect } = require('chai');
- const cors = require('cors');
- const helmet = require('helmet');
+ import express from 'express'; 
+ import bodyParser from 'body-parser'; 
+ import { expect } from 'chai'; 
+ import cors from 'cors'; 
+ import helmet from 'helmet'; 
 
- const dotenv = require('dotenv');
- dotenv.config();
+ import { config as configEnv } from 'dotenv'; 
+ configEnv();
 
- const apiRoutes = require('./routes/api.js');
- const fccTestingRoutes = require('./routes/fcctesting.js');
- const runner = require('./test-runner');
+ import apiRoutes from './routes/api.js'; 
+ import fccTestingRoutes from '../public/routes/fcctesting.js'; 
+ import testRunner from '../test-runner'; 
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use('/public', express.static(process.cwd() + '/public'));
 
 app.use(cors({origin: '*'})); //For FCC testing purposes only
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //Sample front-end
@@ -64,7 +64,7 @@ app.listen(process.env.PORT || 3000, function () {
     console.log('Running Tests...');
     setTimeout(function () {
       try {
-        runner.run();
+        testRunner.run();
       } catch(e) {
         var error = e;
           console.log('Tests are not valid:');
@@ -74,4 +74,4 @@ app.listen(process.env.PORT || 3000, function () {
   }
 });
 
-module.exports = app; //for testing
+export default app; //for testing

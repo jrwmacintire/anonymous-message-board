@@ -8,27 +8,21 @@
 
 'use strict';
 
-const expect = require('chai').expect;
+// const expect = require('chai').expect;
 
-module.exports = function (app) {
+import BoardController from '../controllers/boardController';
+const boardController = new BoardController();
+import Board from '../models/Board';
+import { Request, Response } from 'express';
+
+export default function (app) {
   
   app.route('/api/threads/:board')
-      .get(async function(req, res) {
-
-        const board = req.params.board;
-        const boards = boardController.getBoards();
-
-        if(board) {
-          res.send({ 
-            message: 'threads will be here, eventually',
-            board: req.params.board
-          });
-        } else {
-          res.send({
-            error: 'Board not found with given input.',
-            params: req.params
-          });
-        }
+      .get(async function(req : Request, res : Response) {
+        const params = req.params;
+        console.log(`params: `, params);
+ 
+        res.send(params);
       })
       .post(function(req, res) {
 

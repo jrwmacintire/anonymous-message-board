@@ -1,6 +1,6 @@
 import { ObjectID } from 'mongodb';
 
-export interface Board {
+export default interface Board {
     _id: ObjectID,
     board_name: string,
     created_on: Date,

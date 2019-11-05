@@ -1,6 +1,6 @@
 import { ObjectID } from "bson";
 
-export interface Message {
+export default interface Message {
     _id: ObjectID,
     created_on: Date,
     text: string,

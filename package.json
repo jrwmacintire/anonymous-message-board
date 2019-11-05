@@ -5,12 +5,14 @@
 	"name": "anonymous-message-board",
 	"version": "0.0.1",
 	"description": "Anonymous Message Board - JohnMacIntire.com",
-	"main": "server.js",
+	"main": "public/index.js",
 	"scripts": {
-		"start": "nodemon server.js",
+		"start": "nodemon public/index.js",
 		"sass": "sass --watch src/sass:public/style",
-		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/*.css', src/views/*.html, routes/*.js, controllers/*.js, models/*.js",
-		"typescript": "tsc -watch"
+		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/*.css', views/*.html, src/routes/*.js, src/controllers/*.js, src/models/*.js",
+		"typescript": "tsc -watch",
+		"babel": "babel ./src --out-dir public --extensions '.ts,.tsx'",
+		"babel-watch": "babel --watch src --out-dir public --extensions .ts,.tsx --presets @babel/typescript"
 	},
 	"dependencies": {
 		"body-parser": "^1.15.2",
@@ -41,6 +43,15 @@
 	],
 	"license": "MIT",
 	"devDependencies": {
+		"@babel/cli": "^7.6.4",
+		"@babel/core": "^7.6.4",
+		"@babel/node": "^7.6.3",
+		"@babel/plugin-proposal-class-properties": "^7.5.5",
+		"@babel/plugin-transform-runtime": "^7.6.2",
+		"@babel/preset-env": "^7.6.3",
+		"@babel/preset-typescript": "^7.6.0",
+		"@babel/register": "^7.6.2",
+		"@babel/runtime": "^7.6.3",
 		"@types/mongodb": "^3.3.7",
 		"@types/mongoose": "^5.5.26"
 	}

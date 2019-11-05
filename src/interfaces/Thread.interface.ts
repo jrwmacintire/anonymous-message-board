@@ -1,6 +1,6 @@
 import { ObjectID } from "bson";
 
-export interface Thread {
+export default interface Thread {
     _id: ObjectID,
     board_id: ObjectID,
     craeted_on: Date,

@@ -1,10 +1,34 @@
-import * as mongoose from 'mongoose';
-const DB_URL = process.env.DB_URL;
-import Board from '../models/Board';
-import Thread from '../models/Thread';
-import Message from '../models/Message';
-const connectDB = () => {
-    return mongoose.connect(DB_URL, { useNewUrlParser: true });
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.connectDB = exports.models = void 0;
+
+var mongoose = _interopRequireWildcard(require("mongoose"));
+
+var _Board = _interopRequireDefault(require("./Board"));
+
+var _Thread = _interopRequireDefault(require("./Thread"));
+
+var _Message = _interopRequireDefault(require("./Message"));
+
+var DB_URL = process.env.DB_URL;
+
+var connectDB = function connectDB() {
+  return mongoose.connect(DB_URL, {
+    useNewUrlParser: true
+  });
 };
-const models = { Board, Thread, Message };
-export { models, connectDB };
+
+exports.connectDB = connectDB;
+var models = {
+  Board: _Board["default"],
+  Thread: _Thread["default"],
+  Message: _Message["default"]
+};
+exports.models = models;

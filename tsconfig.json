@@ -1,16 +1,21 @@
 {
+    "compileOnSave": true,
     "compilerOptions": {
-        "target": "es6",
+        "module": "es6",
+        "moduleResolution": "node",
+        "target": "es5",
         "watch": true,
         "lib": [
             "dom",
-            "es2017"
+            "es6"
         ],
         "outDir": "public"
     },
     "include": [
+        "src/*",
         "src/controllers/*",
         "src/models/*",
-        "src/interfaces/*"
+        "src/interfaces/*",
+        "src/routes/*"
     ]
 }
