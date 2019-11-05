@@ -49,7 +49,13 @@ function _default(app) {
     return function (_x, _x2) {
       return _ref.apply(this, arguments);
     };
-  }()).post(function (req, res) {}).put(function (req, res) {})["delete"](function (req, res) {});
+  }()).post(function (req, res) {
+    res.send(req.body);
+  }).put(function (req, res) {
+    res.send(req.body);
+  })["delete"](function (req, res) {
+    res.send('Request to delete a thread?');
+  });
   app.route('/api/replies/:board').get(function (req, res) {
     res.send({
       message: 'replies will be here, eventually',

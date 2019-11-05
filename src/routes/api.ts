@@ -19,19 +19,19 @@ export default function (app) {
   
   app.route('/api/threads/:board')
       .get(async function(req : Request, res : Response) {
-        const params = req.params;
+        const params : string = req.params;
         console.log(`params: `, params);
  
         res.send(params);
       })
-      .post(function(req, res) {
-
+      .post(function(req : Request, res : Response) {
+        res.send(req.body);
       })
-      .put(function(req, res) {
-
+      .put(function(req : Request, res : Response) {
+        res.send(req.body);
       })
-      .delete(function(req, res) {
-
+      .delete(function(req : Request, res : Response) {
+        res.send('Request to delete a thread?');
       });
     
   app.route('/api/replies/:board')

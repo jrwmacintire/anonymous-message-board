@@ -53,6 +53,7 @@
 		"@babel/register": "^7.6.2",
 		"@babel/runtime": "^7.6.3",
 		"@types/mongodb": "^3.3.7",
-		"@types/mongoose": "^5.5.26"
+		"@types/mongoose": "^5.5.26",
+		"babel-watch": "^7.0.0"
 	}
 }

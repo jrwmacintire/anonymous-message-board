@@ -12,7 +12,7 @@
         "outDir": "public"
     },
     "include": [
-        "src/*",
+        "src/index",
         "src/controllers/*",
         "src/models/*",
         "src/interfaces/*",

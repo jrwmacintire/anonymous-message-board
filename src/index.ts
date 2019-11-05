@@ -1,6 +1,7 @@
 'use strict'; 
 
- import express from 'express'; 
+ import express from 'express';
+ import { Request, Response } from 'express';
  import bodyParser from 'body-parser'; 
  import { expect } from 'chai'; 
  import cors from 'cors'; 
@@ -27,17 +28,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //Sample front-end
 app.route('/b/:board/')
-  .get(function (req, res) {
+  .get(function (req : Request, res : Response) {
     res.sendFile(process.cwd() + '/src/views/board.html');
   });
 app.route('/b/:board/:threadid')
-  .get(function (req, res) {
+  .get(function (req : Request, res : Response) {
     res.sendFile(process.cwd() + '/src/views/thread.html');
   });
 
 //Index page (static HTML)
 app.route('/')
-  .get(function (req, res) {
+  .get(function (req : Request, res : Response) {
     res.sendFile(process.cwd() + '/src/views/index.html');
   });
 
@@ -51,7 +52,7 @@ apiRoutes(app);
 
     
 //404 Not Found Middleware
-app.use(function(req, res, next) {
+app.use(function(req : Request, res : Response, next) {
   res.status(404)
     .type('text')
     .send('Not Found');
