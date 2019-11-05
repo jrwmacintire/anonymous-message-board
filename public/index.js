@@ -2,11 +2,6 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = void 0;
-
 var _express = _interopRequireDefault(require("express"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
@@ -21,7 +16,7 @@ var _api = _interopRequireDefault(require("./routes/api.js"));
 
 var _fcctesting = _interopRequireDefault(require("../public/routes/fcctesting.js"));
 
-var _testRunner = _interopRequireDefault(require("../test-runner"));
+var _testRunner = require("../test-runner");
 
 (0, _dotenv.config)();
 var app = (0, _express["default"])();
@@ -66,7 +61,7 @@ app.listen(process.env.PORT || 3000, function () {
     console.log('Running Tests...');
     setTimeout(function () {
       try {
-        _testRunner["default"].run();
+        (0, _testRunner.run)();
       } catch (e) {
         var error = e;
         console.log('Tests are not valid:');
@@ -75,6 +70,4 @@ app.listen(process.env.PORT || 3000, function () {
     }, 1500);
   }
 });
-var _default = app; //for testing
-
-exports["default"] = _default;
+module.exports = app; //for testing

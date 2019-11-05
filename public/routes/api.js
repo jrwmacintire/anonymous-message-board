@@ -34,11 +34,11 @@ function _default(app) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              params = req.params;
-              console.log("params: ", params);
+              params = req.params; // console.log(`params: `, params);
+
               res.send(params);
 
-            case 3:
+            case 2:
             case "end":
               return _context.stop();
           }
@@ -57,11 +57,15 @@ function _default(app) {
     res.send('Request to delete a thread?');
   });
   app.route('/api/replies/:board').get(function (req, res) {
-    res.send({
-      message: 'replies will be here, eventually',
-      params: req.params
-    });
-  }).post(function (req, res) {}).put(function (req, res) {})["delete"](function (req, res) {});
+    var params = req.params;
+    res.send("params: ".concat(params));
+  }).post(function (req, res) {
+    res.send(req.body);
+  }).put(function (req, res) {
+    res.send(req.body);
+  })["delete"](function (req, res) {
+    res.send(req.body);
+  });
 }
 
 ;

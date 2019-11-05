@@ -1,18 +1,16 @@
 'use strict'; 
 
- import express from 'express';
- import { Request, Response } from 'express';
- import bodyParser from 'body-parser'; 
- import { expect } from 'chai'; 
- import cors from 'cors'; 
- import helmet from 'helmet'; 
-
- import { config as configEnv } from 'dotenv'; 
- configEnv();
-
- import apiRoutes from './routes/api.js'; 
- import fccTestingRoutes from '../public/routes/fcctesting.js'; 
- import testRunner from '../test-runner'; 
+import express from 'express';
+import { Request, Response } from 'express';
+import bodyParser from 'body-parser'; 
+import { expect } from 'chai'; 
+import cors from 'cors'; 
+import helmet from 'helmet'; 
+import { config as configEnv } from 'dotenv'; 
+configEnv();
+import apiRoutes from './routes/api.js'; 
+import fccTestingRoutes from '../public/routes/fcctesting.js'; 
+import { run as runTests } from '../test-runner'; 
 
 const app = express();
 
@@ -65,7 +63,7 @@ app.listen(process.env.PORT || 3000, function () {
     console.log('Running Tests...');
     setTimeout(function () {
       try {
-        testRunner.run();
+        runTests();
       } catch(e) {
         var error = e;
           console.log('Tests are not valid:');
@@ -75,4 +73,4 @@ app.listen(process.env.PORT || 3000, function () {
   }
 });
 
-export default app; //for testing
+module.exports = app; //for testing

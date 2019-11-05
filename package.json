@@ -9,10 +9,10 @@
 	"scripts": {
 		"start": "nodemon public/index.js",
 		"sass": "sass --watch src/sass:public/style",
-		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/*.css', views/*.html, src/routes/*.js, src/controllers/*.js, src/models/*.js",
+		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'tests/*, public/**/*, src/**/*",
 		"typescript": "tsc -watch",
 		"babel": "babel ./src --out-dir public --extensions '.ts,.tsx'",
-		"babel-watch": "babel --watch src --out-dir public --extensions .ts,.tsx --presets @babel/typescript"
+		"babel-watch": "babel --watch src --out-dir public --extensions .ts,.tsx --presets @babel/typescript --verbose"
 	},
 	"dependencies": {
 		"body-parser": "^1.15.2",

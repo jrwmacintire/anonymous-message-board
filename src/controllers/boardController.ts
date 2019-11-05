@@ -1,5 +1,3 @@
-import BoardInterface from '../interfaces/Board.interface';
-
 class BoardController {
 
     public createNewBoard = (name : string) => {

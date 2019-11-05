@@ -20,7 +20,7 @@ export default function (app) {
   app.route('/api/threads/:board')
       .get(async function(req : Request, res : Response) {
         const params : string = req.params;
-        console.log(`params: `, params);
+        // console.log(`params: `, params);
  
         res.send(params);
       })
@@ -35,20 +35,18 @@ export default function (app) {
       });
     
   app.route('/api/replies/:board')
-      .get(function(req, res) {
-        res.send({ 
-          message: 'replies will be here, eventually',
-          params: req.params
-        });
+      .get(function(req : Request, res : Response) {
+        const params : string = req.params;
+        res.send(`params: ${params}`);
       })
-      .post(function(req, res) {
-        
+      .post(function(req : Request, res : Response) {
+        res.send(req.body);
       })
-      .put(function(req, res) {
-        
+      .put(function(req : Request, res : Response) {
+        res.send(req.body);
       })
-      .delete(function(req, res) {
-        
+      .delete(function(req : Request, res : Response) {
+        res.send(req.body);
       });
 
 };
