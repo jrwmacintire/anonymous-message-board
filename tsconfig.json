@@ -1,21 +1,21 @@
 {
-    "compileOnSave": true,
     "compilerOptions": {
-        "module": "es6",
+        "target": "esnext",
         "moduleResolution": "node",
-        "target": "es5",
-        "watch": true,
+        "allowJs": true,
+        "strict": true,
+        "noEmit": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "noImplicitReturns": true,
         "lib": [
             "dom",
             "es6"
         ],
-        "outDir": "public"
+        "outDir": "public",
+        "sourceMap": true
     },
     "include": [
-        "src/*",
-        "src/controllers/*",
-        "src/models/*",
-        "src/interfaces/*",
-        "src/routes/*"
+        "src",
     ]
 }

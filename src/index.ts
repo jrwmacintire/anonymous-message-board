@@ -1,7 +1,7 @@
 'use strict'; 
 
 import express from 'express';
-import { Request, Response } from 'express';
+import { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser'; 
 import { expect } from 'chai'; 
 import cors from 'cors'; 
@@ -53,7 +53,7 @@ apiRoutes(app);
 app.use(function(req : Request, res : Response, next) {
   res.status(404)
     .type('text')
-    .send('Not Found');
+    .send(`Not found. If you're attempting to access a board, please try something like '/api/threads/{a-z}'.`);
 });
 
 //Start our server and tests!

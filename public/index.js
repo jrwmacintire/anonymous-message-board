@@ -51,7 +51,7 @@ app.route('/').get(function (req, res) {
 //404 Not Found Middleware
 
 app.use(function (req, res, next) {
-  res.status(404).type('text').send('Not Found');
+  res.status(404).type('text').send("Not found. If you're attempting to access a board, please try something like '/api/threads/{a-z}'.");
 }); //Start our server and tests!
 
 app.listen(process.env.PORT || 3000, function () {
