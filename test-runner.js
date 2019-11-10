@@ -50,7 +50,7 @@ fs.readdirSync(testDir).filter(function(file){
 var emitter = new EventEmitter();  
 emitter.run = function() {
 
-  var tests = [];
+  let tests = [];
   var context = "";
   var separator = ' -> ';
   // Run the tests.

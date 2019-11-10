@@ -26,65 +26,77 @@
 */
 'use strict';
 
-var cors = require('cors');
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var fs = require('fs');
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = _default;
 
-var runner = require('../../test-runner');
+var _cors = _interopRequireDefault(require("cors"));
 
-module.exports = function (app) {
+var _fs = _interopRequireDefault(require("fs"));
+
+var _testRunner = require("../../test-runner");
+
+function _default(app) {
   app.route('/_api/server.js').get(function (req, res, next) {
     console.log('requested');
-    fs.readFile(__dirname + '/server.js', function (err, data) {
+
+    _fs["default"].readFile(__dirname + '/server.js', function (err, data) {
       if (err) return next(err);
       res.send(data.toString());
     });
   });
   app.route('/_api/routes/api.js').get(function (req, res, next) {
     console.log('requested');
-    fs.readFile(__dirname + '/routes/api.js', function (err, data) {
+
+    _fs["default"].readFile(__dirname + '/routes/api.js', function (err, data) {
       if (err) return next(err);
       res.type('txt').send(data.toString());
     });
   });
   app.route('/_api/controllers/convertHandler.js').get(function (req, res, next) {
     console.log('requested');
-    fs.readFile(__dirname + '/controllers/convertHandler.js', function (err, data) {
+
+    _fs["default"].readFile(__dirname + '/controllers/convertHandler.js', function (err, data) {
       if (err) return next(err);
       res.type('txt').send(data.toString());
     });
   });
   var error;
-  app.get('/_api/get-tests', cors(), function (req, res, next) {
+  app.get('/_api/get-tests', (0, _cors["default"])(), function (req, res, next) {
     console.log(error);
     if (!error && process.env.NODE_ENV === 'test') return next();
     res.json({
       status: 'unavailable'
     });
   }, function (req, res, next) {
-    if (!runner.report) return next();
-    res.json(testFilter(runner.report, req.query.type, req.query.n));
+    if (!_testRunner.run.report) return next();
+    res.json(testFilter(_testRunner.run.report, req.query.type, req.query.n));
   }, function (req, res) {
-    runner.on('done', function (report) {
+    _testRunner.run.on('done', function (report) {
       process.nextTick(function () {
-        return res.json(testFilter(runner.report, req.query.type, req.query.n));
+        return res.json(testFilter(_testRunner.run.report, req.query.type, req.query.n));
       });
     });
   });
   app.get('/_api/app-info', function (req, res) {
-    var hs = Object.keys(res._headers).filter(function (h) {
+    var hs = Object.keys(res.header).filter(function (h) {
       return !h.match(/^access-control-\w+/);
     });
     var hObj = {};
     hs.forEach(function (h) {
-      hObj[h] = res._headers[h];
+      hObj[h] = res.header[h];
     });
-    delete res._headers['strict-transport-security'];
+    delete res.header['strict-transport-security'];
     res.json({
       headers: hObj
     });
   });
-};
+}
+
+;
 
 function testFilter(tests, type, n) {
   var out;

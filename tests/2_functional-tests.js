@@ -32,7 +32,10 @@ suite("Functional Tests", function() {
           })
           .end(function(err, res) {
             const { body } = res;
+            console.log(`body:`, body);
             assert.equal(res.status, 200);
+            assert.isArray(body);
+            assert.isAbove(body.length, 0);
             done();
           });
       });
@@ -46,10 +49,10 @@ suite("Functional Tests", function() {
             delete_password: "password1234"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Invalid input for board name. Please try again.`
             );
             done();
@@ -65,11 +68,11 @@ suite("Functional Tests", function() {
             delete_password: "password1234"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 404);
             assert.equal(
-              body.message,
-              `Invalid input for board name. Please try again.`
+              text,
+              `Not found. If you\'re attempting to access a board, please try something like \'/api/threads/{a-z}\'.`
             );
             done();
           });
@@ -84,15 +87,12 @@ suite("Functional Tests", function() {
             delete_password: "password1234"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Invalid input for text. Please try again.`
             );
-            assert.equal(body.params.board, "test_board");
-            assert.equal(body.params.text, "");
-            assert.equal(body.params.delete_password, "password1234");
             done();
           });
       });
@@ -106,15 +106,12 @@ suite("Functional Tests", function() {
             delete_password: ""
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               "Invalid input for delete_password field. Please try again."
             );
-            assert.equal(body.params.board, "test_board");
-            assert.equal(body.params.text, "test text for board");
-            assert.equal(body.params.delete_password, "");
             done();
           });
       });
@@ -125,13 +122,12 @@ suite("Functional Tests", function() {
           .post("/api/threads/t")
           .send({})
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               "Please ensure all input fields are filled out and try again."
             );
-            assert.isEmpty(body);
             done();
           });
       });

@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -100,19 +102,31 @@ var BoardController = function BoardController() {
       return _ref2.apply(this, arguments);
     };
   }());
-  (0, _defineProperty2["default"])(this, "reportBoard",
+  (0, _defineProperty2["default"])(this, "validateBoardByName",
   /*#__PURE__*/
   function () {
     var _ref3 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee3(report) {
+    _regenerator["default"].mark(function _callee3(name) {
+      var regex;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              console.log("reporting board -> report: ".concat(report));
+              console.log("Validating board by name: ".concat(name));
+              regex = /^[a-z]{1}$/;
 
-            case 1:
+              if (!name.match(regex)) {
+                _context3.next = 6;
+                break;
+              }
+
+              return _context3.abrupt("return", true);
+
+            case 6:
+              return _context3.abrupt("return", false);
+
+            case 7:
             case "end":
               return _context3.stop();
           }
@@ -124,19 +138,26 @@ var BoardController = function BoardController() {
       return _ref3.apply(this, arguments);
     };
   }());
-  (0, _defineProperty2["default"])(this, "deleteBoard",
+  (0, _defineProperty2["default"])(this, "validateBody",
   /*#__PURE__*/
   function () {
     var _ref4 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee4(deletePassword) {
+    _regenerator["default"].mark(function _callee4(body) {
+      var text, delete_password, textType, passwordType, validated;
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              console.log("deleting board with -> ".concat(deletePassword));
+              console.log("Validating body: ", body);
+              text = body.text, delete_password = body.delete_password, textType = (0, _typeof2["default"])(text), passwordType = (0, _typeof2["default"])(delete_password);
+              validated = {
+                text: textType === 'string' && text !== '' ? true : false,
+                delete_password: passwordType === 'string' && delete_password !== '' ? true : false
+              };
+              return _context4.abrupt("return", validated);
 
-            case 1:
+            case 4:
             case "end":
               return _context4.stop();
           }
@@ -148,17 +169,17 @@ var BoardController = function BoardController() {
       return _ref4.apply(this, arguments);
     };
   }());
-  (0, _defineProperty2["default"])(this, "addThread",
+  (0, _defineProperty2["default"])(this, "reportBoard",
   /*#__PURE__*/
   function () {
     var _ref5 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
-    _regenerator["default"].mark(function _callee5(threadName) {
+    _regenerator["default"].mark(function _callee5(report) {
       return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              console.log("add a '".concat(threadName, "' thread to board"));
+              console.log("reporting board -> report: ".concat(report));
 
             case 1:
             case "end":
@@ -170,6 +191,54 @@ var BoardController = function BoardController() {
 
     return function (_x5) {
       return _ref5.apply(this, arguments);
+    };
+  }());
+  (0, _defineProperty2["default"])(this, "deleteBoard",
+  /*#__PURE__*/
+  function () {
+    var _ref6 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee6(deletePassword) {
+      return _regenerator["default"].wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              console.log("deleting board with -> ".concat(deletePassword));
+
+            case 1:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }));
+
+    return function (_x6) {
+      return _ref6.apply(this, arguments);
+    };
+  }());
+  (0, _defineProperty2["default"])(this, "addThread",
+  /*#__PURE__*/
+  function () {
+    var _ref7 = (0, _asyncToGenerator2["default"])(
+    /*#__PURE__*/
+    _regenerator["default"].mark(function _callee7(threadName) {
+      return _regenerator["default"].wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              console.log("add a '".concat(threadName, "' thread to board"));
+
+            case 1:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }));
+
+    return function (_x7) {
+      return _ref7.apply(this, arguments);
     };
   }());
 };

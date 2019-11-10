@@ -41,7 +41,8 @@ function _default(app) {
               // query thread ids from board
               // filter 10 threads with the highest bumps/replies
               // display with json, or send 'No replies were found on this thread.'
-              res.sendFile(process.cwd() + "/src/views/board.html");
+              // res.sendFile(process.cwd() + `/src/views/board.html`);
+              res.json([]);
               _context.next = 8;
               break;
 
@@ -67,54 +68,101 @@ function _default(app) {
     var _ref2 = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee2(req, res) {
-      var boardName, body, board, newBoard;
+      var boardName, _req$body, text, delete_password, body, valid, validatedBoardName, validatedBody;
+
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               boardName = req.params.board;
-              body = req.body;
-              _context2.prev = 2;
+              _req$body = req.body, text = _req$body.text, delete_password = _req$body.delete_password;
+              body = {
+                text: text,
+                delete_password: delete_password
+              };
               _context2.next = 5;
-              return boardController.findBoardByName(boardName);
+              return Promise.all([boardController.validateBoardByName(boardName), boardController.validateBody(body)]);
 
             case 5:
-              board = _context2.sent;
+              valid = _context2.sent;
+              ;
+              _context2.prev = 7;
+              console.log("valid: ", valid);
+              validatedBoardName = valid[0], validatedBody = valid[1]; // If board's name is valid
 
-              if (!(board === null || board === undefined)) {
-                _context2.next = 13;
+              if (!validatedBoardName) {
+                _context2.next = 30;
                 break;
               }
 
-              console.log("'".concat(boardName, "' board not found!")); // create new board
+              if (!(validatedBody.text && validatedBody.delete_password)) {
+                _context2.next = 15;
+                break;
+              }
 
-              _context2.next = 10;
-              return boardController.createNewBoard(boardName);
-
-            case 10:
-              newBoard = _context2.sent;
-              _context2.next = 14;
+              // then redirect to the newly created thread's board.
+              res.redirect("/api/threads/".concat(boardName));
+              _context2.next = 28;
               break;
 
-            case 13:
-              console.log("'".concat(boardName, "' board was FOUND."));
+            case 15:
+              if (!(!validatedBody.text && !validatedBody.delete_password)) {
+                _context2.next = 19;
+                break;
+              }
 
-            case 14:
-              res.status(307).redirect("/api/threads/".concat(boardName));
-              _context2.next = 20;
+              // Error: all inputs invalid
+              res.status(400).send('Please ensure all input fields are filled out and try again.');
+              _context2.next = 28;
               break;
 
-            case 17:
-              _context2.prev = 17;
-              _context2.t0 = _context2["catch"](2);
+            case 19:
+              if (validatedBody.text) {
+                _context2.next = 23;
+                break;
+              }
+
+              // Error: 'text' field is invalid
+              res.status(400).send('Invalid input for text. Please try again.');
+              _context2.next = 28;
+              break;
+
+            case 23:
+              if (validatedBody.delete_password) {
+                _context2.next = 27;
+                break;
+              }
+
+              // Error: 'delete_password' field is invalid
+              res.status(400).send('Invalid input for delete_password field. Please try again.');
+              _context2.next = 28;
+              break;
+
+            case 27:
+              throw Error('Catch all error for error-handling on body validation.');
+
+            case 28:
+              _context2.next = 31;
+              break;
+
+            case 30:
+              res.status(400).send('Invalid input for board name. Please try again.');
+
+            case 31:
+              _context2.next = 36;
+              break;
+
+            case 33:
+              _context2.prev = 33;
+              _context2.t0 = _context2["catch"](7);
               throw _context2.t0;
 
-            case 20:
+            case 36:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, null, [[2, 17]]);
+      }, _callee2, null, [[7, 33]]);
     }));
 
     return function (_x3, _x4) {

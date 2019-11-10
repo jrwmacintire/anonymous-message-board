@@ -27,14 +27,15 @@
 
 'use strict';
 
-const cors = require('cors');
-const fs = require('fs');
-const runner = require('../../test-runner');
+import cors from 'cors';
+import fs from 'fs';
+import { run as runner } from '../../test-runner';
+import express from 'express';
 
-module.exports = function (app) {
+export default function (app : express.Application) {
 
   app.route('/_api/server.js')
-    .get(function(req, res, next) {
+    .get(function(req : express.Request, res : express.Response, next : Function) {
       console.log('requested');
       fs.readFile(__dirname + '/server.js', function(err, data) {
         if(err) return next(err);
@@ -42,7 +43,7 @@ module.exports = function (app) {
       });
     });
   app.route('/_api/routes/api.js')
-    .get(function(req, res, next) {
+    .get(function(req : express.Request, res : express.Response, next : Function) {
       console.log('requested');
       fs.readFile(__dirname + '/routes/api.js', function(err, data) {
         if(err) return next(err);
@@ -50,7 +51,7 @@ module.exports = function (app) {
       });
     });
   app.route('/_api/controllers/convertHandler.js')
-    .get(function(req, res, next) {
+    .get(function(req : express.Request, res : express.Response, next : Function) {
       console.log('requested');
       fs.readFile(__dirname + '/controllers/convertHandler.js', function(err, data) {
         if(err) return next(err);
@@ -59,26 +60,26 @@ module.exports = function (app) {
     });
     
   var error;
-  app.get('/_api/get-tests', cors(), function(req, res, next){
+  app.get('/_api/get-tests', cors(), function(req : express.Request, res : express.Response, next){
     console.log(error);
     if(!error && process.env.NODE_ENV === 'test') return next();
     res.json({status: 'unavailable'});
   },
-  function(req, res, next){
+  function(req : express.Request, res : express.Response, next : Function){
     if(!runner.report) return next();
     res.json(testFilter(runner.report, req.query.type, req.query.n));
   },
-  function(req, res){
+  function(req : express.Request, res : express.Response){
     runner.on('done', function(report){
       process.nextTick(() =>  res.json(testFilter(runner.report, req.query.type, req.query.n)));
     });
   });
-  app.get('/_api/app-info', function(req, res) {
-    var hs = Object.keys(res._headers)
+  app.get('/_api/app-info', function(req : express.Request, res : express.Response) {
+    var hs = Object.keys(res.header)
       .filter(h => !h.match(/^access-control-\w+/));
     var hObj = {};
-    hs.forEach(h => {hObj[h] = res._headers[h]});
-    delete res._headers['strict-transport-security'];
+    hs.forEach(h => {hObj[h] = res.header[h]});
+    delete res.header['strict-transport-security'];
     res.json({headers: hObj});
   });
   
