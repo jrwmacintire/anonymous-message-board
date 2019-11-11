@@ -9,7 +9,7 @@ import helmet from 'helmet';
 import { config as configEnv } from 'dotenv'; 
 configEnv();
 import apiRoutes from './routes/api.js'; 
-import fccTestingRoutes from '../public/routes/fcctesting.js'; 
+import fccTestingRoutes from './routes/fcctesting.js'; 
 import { run as runTests } from '../test-runner'; 
 
 const app = express();

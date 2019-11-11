@@ -31,15 +31,15 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = _default;
+exports["default"] = fcctesting;
 
 var _cors = _interopRequireDefault(require("cors"));
 
 var _fs = _interopRequireDefault(require("fs"));
 
-var _testRunner = require("../../test-runner");
+var _testRunner = _interopRequireDefault(require("../../test-runner"));
 
-function _default(app) {
+function fcctesting(app) {
   app.route('/_api/server.js').get(function (req, res, next) {
     console.log('requested');
 
@@ -72,12 +72,12 @@ function _default(app) {
       status: 'unavailable'
     });
   }, function (req, res, next) {
-    if (!_testRunner.run.report) return next();
-    res.json(testFilter(_testRunner.run.report, req.query.type, req.query.n));
+    if (!_testRunner["default"].report) return next();
+    res.json(testFilter(_testRunner["default"].report, req.query.type, req.query.n));
   }, function (req, res) {
-    _testRunner.run.on('done', function (report) {
+    _testRunner["default"].on('done', function (report) {
       process.nextTick(function () {
-        return res.json(testFilter(_testRunner.run.report, req.query.type, req.query.n));
+        return res.json(testFilter(_testRunner["default"].report, req.query.type, req.query.n));
       });
     });
   });

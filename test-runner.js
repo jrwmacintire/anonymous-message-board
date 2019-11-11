@@ -37,18 +37,18 @@ var testDir = './tests'
 
 
 // Add each .js file to the mocha instance
-fs.readdirSync(testDir).filter(function(file){
+fs.readdirSync(testDir).filter((file) => {
     // Only keep the .js files
     return file.substr(-3) === '.js';
 
-}).forEach(function(file){
+}).forEach((file) => {
     mocha.addFile(
         path.join(testDir, file)
     );
 });
 
 var emitter = new EventEmitter();  
-emitter.run = function() {
+emitter.run = () => {
 
   let tests = [];
   var context = "";
@@ -56,7 +56,7 @@ emitter.run = function() {
   // Run the tests.
   try {
   var runner = mocha.ui('tdd').run()
-    .on('test end', function(test) {
+    .on('test end', (test) => {
         // remove comments
         var body = test.body.replace(/\/\/.*\n|\/\*.*\*\//g, '');
         // collapse spaces
@@ -65,20 +65,20 @@ emitter.run = function() {
           title: test.title,
           context: context.slice(0, -separator.length),
           state: test.state,
-          // body: body,
+          body: body,
           assertions: analyser(body)
         };
         tests.push(obj);
     })
-    .on('end', function() {
+    .on('end', () => {
         emitter.report = tests;
         emitter.emit('done', tests)
     })
-    .on('suite', function(s) {
+    .on('suite', (s) => {
       context += (s.title + separator);
 
     })
-    .on('suite end', function(s) {
+    .on('suite end', (s) => {
       context = context.slice(0, -(s.title.length + separator.length))
     })
   } catch(e) {

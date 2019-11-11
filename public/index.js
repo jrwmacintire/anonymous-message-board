@@ -14,7 +14,7 @@ var _dotenv = require("dotenv");
 
 var _api = _interopRequireDefault(require("./routes/api.js"));
 
-var _fcctesting = _interopRequireDefault(require("../public/routes/fcctesting.js"));
+var _fcctesting = _interopRequireDefault(require("./routes/fcctesting.js"));
 
 var _testRunner = require("../test-runner");
 
