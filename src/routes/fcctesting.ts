@@ -37,7 +37,7 @@ export default function (app: express.Application) {
   app.route('/_api/server.js')
     .get(function (req: express.Request, res: express.Response, next: Function) {
       console.log('requested');
-      fs.readFile(__dirname + '/server.js', function (err, data) {
+      fs.readFile(__dirname + '/public/index.js', function (err, data) {
         if (err) return next(err);
         res.send(data.toString());
       });
