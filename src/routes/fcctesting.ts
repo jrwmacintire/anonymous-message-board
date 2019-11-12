@@ -30,7 +30,7 @@
 import cors from 'cors';
 import fs from 'fs';
 // import runner from '../../test-runner';
-import TestEmitter from '../../test-runner2';
+import TestEmitter from '../testing/test-runner2';
 import express from 'express';
 const runner = new TestEmitter();
 

@@ -1,4 +1,4 @@
-import analyser from './assertion-analyser';
+import analyser from '../../assertion-analyser';
 import { EventEmitter } from 'events'
 
 import Mocha from 'mocha';

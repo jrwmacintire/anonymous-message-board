@@ -37,7 +37,7 @@ var _cors = _interopRequireDefault(require("cors"));
 
 var _fs = _interopRequireDefault(require("fs"));
 
-var _testRunner = _interopRequireDefault(require("../../test-runner2"));
+var _testRunner = _interopRequireDefault(require("../testing/test-runner2"));
 
 // import runner from '../../test-runner';
 var runner = new _testRunner["default"]();

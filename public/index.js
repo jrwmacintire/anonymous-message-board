@@ -16,7 +16,7 @@ var _api = _interopRequireDefault(require("./routes/api.js"));
 
 var _fcctesting = _interopRequireDefault(require("./routes/fcctesting.js"));
 
-var _testRunner = _interopRequireDefault(require("../test-runner2"));
+var _testRunner = _interopRequireDefault(require("./testing/test-runner2"));
 
 (0, _dotenv.config)();
 var runner = new _testRunner["default"]();

@@ -11,7 +11,7 @@ configEnv();
 import apiRoutes from './routes/api.js'; 
 import fccTestingRoutes from './routes/fcctesting.js'; 
 // import { run as runTests } from '../test-runner'; 
-import TestEmitter from '../test-runner2';
+import TestEmitter from './testing/test-runner2';
 const runner = new TestEmitter();
 const runTests = runner.run;
 
