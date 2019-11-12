@@ -29,34 +29,72 @@ function _default(app) {
     var _ref = (0, _asyncToGenerator2["default"])(
     /*#__PURE__*/
     _regenerator["default"].mark(function _callee(req, res) {
-      var boardName;
+      var boardName, validBoardName, board, newBoard;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               boardName = req.params.board;
               _context.prev = 1;
-              // validate boardName
-              // throw error if invalid
-              // query thread ids from board
-              // filter 10 threads with the highest bumps/replies
-              // display with json, or send 'No replies were found on this thread.'
-              // res.sendFile(process.cwd() + `/src/views/board.html`);
-              res.json([]);
+              _context.next = 4;
+              return boardController.validateBoardByName(boardName);
+
+            case 4:
+              validBoardName = _context.sent;
+
+              if (!validBoardName) {
+                _context.next = 21;
+                break;
+              }
+
               _context.next = 8;
+              return boardController.findBoardByName(boardName);
+
+            case 8:
+              board = _context.sent;
+
+              if (!board) {
+                _context.next = 14;
+                break;
+              }
+
+              console.log("Board FOUND:", board);
+              res.json(board);
+              _context.next = 19;
               break;
 
-            case 5:
-              _context.prev = 5;
+            case 14:
+              console.log('Board not found - prepare to create board!');
+              _context.next = 17;
+              return boardController.createNewBoard(boardName);
+
+            case 17:
+              newBoard = _context.sent;
+              res.json(newBoard);
+
+            case 19:
+              _context.next = 22;
+              break;
+
+            case 21:
+              // Invalid board name, send error response
+              res.status(400).send('Error: invalid board name');
+
+            case 22:
+              _context.next = 27;
+              break;
+
+            case 24:
+              _context.prev = 24;
               _context.t0 = _context["catch"](1);
               throw _context.t0;
 
-            case 8:
+            case 27:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 5]]);
+      }, _callee, null, [[1, 24]]);
     }));
 
     return function (_x, _x2) {

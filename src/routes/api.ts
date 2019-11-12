@@ -13,6 +13,7 @@
 import BoardController from '../controllers/boardController';
 const boardController = new BoardController();
 import Board from '../models/Board';
+import BoardInterface from '../interfaces/Board.interface';
 import { Request, Response, Application } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
 
@@ -24,13 +25,29 @@ export default function (app : Application) {
         
         try {
 
-          // validate boardName
-          // throw error if invalid
-          // query thread ids from board
-          // filter 10 threads with the highest bumps/replies
-          // display with json, or send 'No replies were found on this thread.'
-          // res.sendFile(process.cwd() + `/src/views/board.html`);
-          res.json([]);
+          const validBoardName = await boardController.validateBoardByName(boardName);
+
+          if(validBoardName) {
+            const board = await boardController.findBoardByName(boardName);
+            if(board) {
+              console.log(`Board FOUND:`, board);
+              res.json(board);
+            } else {
+              console.log('Board not found - prepare to create board!');
+              const newBoard = await boardController.createNewBoard(boardName);
+              res.json(newBoard);
+            }
+
+            // validate boardName
+            // throw error if invalid
+            // query thread ids from board
+            // filter 10 threads with the highest bumps/replies
+            // display with json, or send 'No replies were found on this thread.'
+            // res.sendFile(process.cwd() + `/src/views/board.html`);
+
+          } else { // Invalid board name, send error response
+            res.status(400).send('Error: invalid board name');
+          }
 
         } catch(err) {
           throw err;

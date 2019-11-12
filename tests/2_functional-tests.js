@@ -174,7 +174,7 @@ suite("Functional Tests", function() {
           .get("/api/threads/")
           .end(function(err, res) {
             const { body } = res;
-            assert.equal(res.status, 400);
+            assert.equal(res.status, 404);
             assert.equal(body.message, `Invalid/empty input for 'board' name.`);
             done();
           });
@@ -191,10 +191,10 @@ suite("Functional Tests", function() {
             thread_id: "123456789"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 200);
             assert.equal(
-              body.message,
+              text,
               `Success deleting thread '${thread_id}'!`
             );
             done();
@@ -210,10 +210,10 @@ suite("Functional Tests", function() {
             thread_id: "123456789"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Failed to find and delete thread due to invalid board name!`
             );
             done();
@@ -229,10 +229,10 @@ suite("Functional Tests", function() {
             thread_id: "1234zxz89"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Failed to delete thread due to invalid ID!`
             );
             done();
@@ -248,10 +248,10 @@ suite("Functional Tests", function() {
             thread_id: "123456789"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Failed to delete thread due to invalid 'delete_password'!`
             );
             done();
@@ -268,13 +268,12 @@ suite("Functional Tests", function() {
             thread_id: "1234lkjlkj"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Failed to delete thread due to invalid 'thread_id'`
             );
-            assert.isNotTrue(body.thread.reported);
             done();
           });
       });
@@ -287,10 +286,10 @@ suite("Functional Tests", function() {
             thread_id: "123456789"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               `Failed to delete thread due to invalid board name`
             );
             done();
@@ -305,10 +304,9 @@ suite("Functional Tests", function() {
             thread_id: "123456789"
           })
           .end(function(err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 200);
-            assert.equal(body.message, "Successfully reported thread!");
-            assert.isTrue(body.thread.reported);
+            assert.equal(text, "Successfully reported thread!");
             done();
           });
       });

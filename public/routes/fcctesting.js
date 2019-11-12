@@ -31,19 +31,22 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = fcctesting;
+exports["default"] = _default;
 
 var _cors = _interopRequireDefault(require("cors"));
 
 var _fs = _interopRequireDefault(require("fs"));
 
-var _testRunner = _interopRequireDefault(require("../../test-runner"));
+var _testRunner = _interopRequireDefault(require("../../test-runner2"));
 
-function fcctesting(app) {
+// import runner from '../../test-runner';
+var runner = new _testRunner["default"]();
+
+function _default(app) {
   app.route('/_api/server.js').get(function (req, res, next) {
     console.log('requested');
 
-    _fs["default"].readFile(__dirname + '/server.js', function (err, data) {
+    _fs["default"].readFile(__dirname + '/public/index.js', function (err, data) {
       if (err) return next(err);
       res.send(data.toString());
     });
@@ -72,12 +75,12 @@ function fcctesting(app) {
       status: 'unavailable'
     });
   }, function (req, res, next) {
-    if (!_testRunner["default"].report) return next();
-    res.json(testFilter(_testRunner["default"].report, req.query.type, req.query.n));
+    if (!runner.report) return next();
+    res.json(testFilter(runner.report, req.query.type, req.query.n));
   }, function (req, res) {
-    _testRunner["default"].on('done', function (report) {
+    runner.on('done', function (report) {
       process.nextTick(function () {
-        return res.json(testFilter(_testRunner["default"].report, req.query.type, req.query.n));
+        return res.json(testFilter(runner.report, req.query.type, req.query.n));
       });
     });
   });

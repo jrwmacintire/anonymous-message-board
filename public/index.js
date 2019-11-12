@@ -16,9 +16,11 @@ var _api = _interopRequireDefault(require("./routes/api.js"));
 
 var _fcctesting = _interopRequireDefault(require("./routes/fcctesting.js"));
 
-var _testRunner = require("../test-runner");
+var _testRunner = _interopRequireDefault(require("../test-runner2"));
 
 (0, _dotenv.config)();
+var runner = new _testRunner["default"]();
+var runTests = runner.run;
 var app = (0, _express["default"])();
 app.use((0, _helmet["default"])());
 app.use(_helmet["default"].referrerPolicy({
@@ -61,7 +63,7 @@ app.listen(process.env.PORT || 3000, function () {
     console.log('Running Tests...');
     setTimeout(function () {
       try {
-        (0, _testRunner.run)();
+        runTests();
       } catch (e) {
         var error = e;
         console.log('Tests are not valid:');
