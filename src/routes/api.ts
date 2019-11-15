@@ -31,7 +31,11 @@ export default function (app : Application) {
             const board = await boardController.findBoardByName(boardName);
             if(board) {
               console.log(`Board FOUND:`, board);
-              res.json(board);
+              const response = {
+                board: board,
+                message: 'working on GET'
+              }
+              res.json(response);
             } else {
               console.log('Board not found - prepare to create board!');
               const newBoard = await boardController.createNewBoard(boardName);

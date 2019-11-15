@@ -16,197 +16,179 @@ exports["default"] = _default;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-
 var _boardController = _interopRequireDefault(require("../controllers/boardController"));
 
 var boardController = new _boardController["default"]();
 
 function _default(app) {
-  app.route('/api/threads/:board').get(
-  /*#__PURE__*/
-  function () {
-    var _ref = (0, _asyncToGenerator2["default"])(
-    /*#__PURE__*/
-    _regenerator["default"].mark(function _callee(req, res) {
-      var boardName, validBoardName, board, newBoard;
-      return _regenerator["default"].wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              boardName = req.params.board;
-              _context.prev = 1;
-              _context.next = 4;
-              return boardController.validateBoardByName(boardName);
+  app.route('/api/threads/:board').get(function _callee(req, res) {
+    var boardName, validBoardName, board, response, newBoard;
+    return _regenerator["default"].async(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            boardName = req.params.board;
+            _context.prev = 1;
+            _context.next = 4;
+            return _regenerator["default"].awrap(boardController.validateBoardByName(boardName));
 
-            case 4:
-              validBoardName = _context.sent;
+          case 4:
+            validBoardName = _context.sent;
 
-              if (!validBoardName) {
-                _context.next = 21;
-                break;
-              }
-
-              _context.next = 8;
-              return boardController.findBoardByName(boardName);
-
-            case 8:
-              board = _context.sent;
-
-              if (!board) {
-                _context.next = 14;
-                break;
-              }
-
-              console.log("Board FOUND:", board);
-              res.json(board);
-              _context.next = 19;
-              break;
-
-            case 14:
-              console.log('Board not found - prepare to create board!');
-              _context.next = 17;
-              return boardController.createNewBoard(boardName);
-
-            case 17:
-              newBoard = _context.sent;
-              res.json(newBoard);
-
-            case 19:
+            if (!validBoardName) {
               _context.next = 22;
               break;
+            }
 
-            case 21:
-              // Invalid board name, send error response
-              res.status(400).send('Error: invalid board name');
+            _context.next = 8;
+            return _regenerator["default"].awrap(boardController.findBoardByName(boardName));
 
-            case 22:
-              _context.next = 27;
+          case 8:
+            board = _context.sent;
+
+            if (!board) {
+              _context.next = 15;
               break;
+            }
 
-            case 24:
-              _context.prev = 24;
-              _context.t0 = _context["catch"](1);
-              throw _context.t0;
+            console.log("Board FOUND:", board);
+            response = {
+              board: board,
+              message: 'working on GET'
+            };
+            res.json(response);
+            _context.next = 20;
+            break;
 
-            case 27:
-            case "end":
-              return _context.stop();
-          }
+          case 15:
+            console.log('Board not found - prepare to create board!');
+            _context.next = 18;
+            return _regenerator["default"].awrap(boardController.createNewBoard(boardName));
+
+          case 18:
+            newBoard = _context.sent;
+            res.json(newBoard);
+
+          case 20:
+            _context.next = 23;
+            break;
+
+          case 22:
+            // Invalid board name, send error response
+            res.status(400).send('Error: invalid board name');
+
+          case 23:
+            _context.next = 28;
+            break;
+
+          case 25:
+            _context.prev = 25;
+            _context.t0 = _context["catch"](1);
+            throw _context.t0;
+
+          case 28:
+          case "end":
+            return _context.stop();
         }
-      }, _callee, null, [[1, 24]]);
-    }));
+      }
+    }, null, null, [[1, 25]]);
+  }).post(function _callee2(req, res) {
+    var boardName, _req$body, text, delete_password, body, valid, validatedBoardName, validatedBody;
 
-    return function (_x, _x2) {
-      return _ref.apply(this, arguments);
-    };
-  }()).post(
-  /*#__PURE__*/
-  function () {
-    var _ref2 = (0, _asyncToGenerator2["default"])(
-    /*#__PURE__*/
-    _regenerator["default"].mark(function _callee2(req, res) {
-      var boardName, _req$body, text, delete_password, body, valid, validatedBoardName, validatedBody;
+    return _regenerator["default"].async(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            boardName = req.params.board;
+            _req$body = req.body, text = _req$body.text, delete_password = _req$body.delete_password;
+            body = {
+              text: text,
+              delete_password: delete_password
+            };
+            _context2.next = 5;
+            return _regenerator["default"].awrap(Promise.all([boardController.validateBoardByName(boardName), boardController.validateBody(body)]));
 
-      return _regenerator["default"].wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              boardName = req.params.board;
-              _req$body = req.body, text = _req$body.text, delete_password = _req$body.delete_password;
-              body = {
-                text: text,
-                delete_password: delete_password
-              };
-              _context2.next = 5;
-              return Promise.all([boardController.validateBoardByName(boardName), boardController.validateBody(body)]);
+          case 5:
+            valid = _context2.sent;
+            ;
+            _context2.prev = 7;
+            console.log("valid: ", valid);
+            validatedBoardName = valid[0], validatedBody = valid[1]; // If board's name is valid
 
-            case 5:
-              valid = _context2.sent;
-              ;
-              _context2.prev = 7;
-              console.log("valid: ", valid);
-              validatedBoardName = valid[0], validatedBody = valid[1]; // If board's name is valid
-
-              if (!validatedBoardName) {
-                _context2.next = 30;
-                break;
-              }
-
-              if (!(validatedBody.text && validatedBody.delete_password)) {
-                _context2.next = 15;
-                break;
-              }
-
-              // then redirect to the newly created thread's board.
-              res.redirect("/api/threads/".concat(boardName));
-              _context2.next = 28;
+            if (!validatedBoardName) {
+              _context2.next = 30;
               break;
+            }
 
-            case 15:
-              if (!(!validatedBody.text && !validatedBody.delete_password)) {
-                _context2.next = 19;
-                break;
-              }
-
-              // Error: all inputs invalid
-              res.status(400).send('Please ensure all input fields are filled out and try again.');
-              _context2.next = 28;
+            if (!(validatedBody.text && validatedBody.delete_password)) {
+              _context2.next = 15;
               break;
+            }
 
-            case 19:
-              if (validatedBody.text) {
-                _context2.next = 23;
-                break;
-              }
+            // then redirect to the newly created thread's board.
+            res.redirect("/api/threads/".concat(boardName));
+            _context2.next = 28;
+            break;
 
-              // Error: 'text' field is invalid
-              res.status(400).send('Invalid input for text. Please try again.');
-              _context2.next = 28;
+          case 15:
+            if (!(!validatedBody.text && !validatedBody.delete_password)) {
+              _context2.next = 19;
               break;
+            }
 
-            case 23:
-              if (validatedBody.delete_password) {
-                _context2.next = 27;
-                break;
-              }
+            // Error: all inputs invalid
+            res.status(400).send('Please ensure all input fields are filled out and try again.');
+            _context2.next = 28;
+            break;
 
-              // Error: 'delete_password' field is invalid
-              res.status(400).send('Invalid input for delete_password field. Please try again.');
-              _context2.next = 28;
+          case 19:
+            if (validatedBody.text) {
+              _context2.next = 23;
               break;
+            }
 
-            case 27:
-              throw Error('Catch all error for error-handling on body validation.');
+            // Error: 'text' field is invalid
+            res.status(400).send('Invalid input for text. Please try again.');
+            _context2.next = 28;
+            break;
 
-            case 28:
-              _context2.next = 31;
+          case 23:
+            if (validatedBody.delete_password) {
+              _context2.next = 27;
               break;
+            }
 
-            case 30:
-              res.status(400).send('Invalid input for board name. Please try again.');
+            // Error: 'delete_password' field is invalid
+            res.status(400).send('Invalid input for delete_password field. Please try again.');
+            _context2.next = 28;
+            break;
 
-            case 31:
-              _context2.next = 36;
-              break;
+          case 27:
+            throw Error('Catch all error for error-handling on body validation.');
 
-            case 33:
-              _context2.prev = 33;
-              _context2.t0 = _context2["catch"](7);
-              throw _context2.t0;
+          case 28:
+            _context2.next = 31;
+            break;
 
-            case 36:
-            case "end":
-              return _context2.stop();
-          }
+          case 30:
+            res.status(400).send('Invalid input for board name. Please try again.');
+
+          case 31:
+            _context2.next = 36;
+            break;
+
+          case 33:
+            _context2.prev = 33;
+            _context2.t0 = _context2["catch"](7);
+            throw _context2.t0;
+
+          case 36:
+          case "end":
+            return _context2.stop();
         }
-      }, _callee2, null, [[7, 33]]);
-    }));
-
-    return function (_x3, _x4) {
-      return _ref2.apply(this, arguments);
-    };
-  }()).put(function (req, res) {
+      }
+    }, null, null, [[7, 33]]);
+  }).put(function (req, res) {
     res.send(req.body);
   })["delete"](function (req, res) {
     res.send('Request to delete a thread?');

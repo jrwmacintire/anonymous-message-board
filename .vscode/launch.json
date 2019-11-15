@@ -10,7 +10,7 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceFolder}\\public\\index.js",
-            "preLaunchTask": "npm: check-types",
+            "preLaunchTask": "npm: prelaunch",
             "outFiles": [
                 "${workspaceFolder}/public/**/*.js"
             ]

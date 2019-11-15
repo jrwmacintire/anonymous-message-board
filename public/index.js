@@ -2,6 +2,11 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _express = _interopRequireDefault(require("express"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
@@ -14,7 +19,7 @@ var _dotenv = require("dotenv");
 
 var _api = _interopRequireDefault(require("./routes/api.js"));
 
-var _fcctesting = _interopRequireDefault(require("./routes/fcctesting.js"));
+var _fcctesting = _interopRequireDefault(require("./routes/fcctesting"));
 
 var _testRunner = _interopRequireDefault(require("./testing/test-runner2"));
 
@@ -72,4 +77,6 @@ app.listen(process.env.PORT || 3000, function () {
     }, 1500);
   }
 });
-module.exports = app; //for testing
+var _default = app; //for testing
+
+exports["default"] = _default;

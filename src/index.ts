@@ -9,7 +9,7 @@ import helmet from 'helmet';
 import { config as configEnv } from 'dotenv'; 
 configEnv();
 import apiRoutes from './routes/api.js'; 
-import fccTestingRoutes from './routes/fcctesting.js'; 
+import fccTestingRoutes from './routes/fcctesting'; 
 // import { run as runTests } from '../test-runner'; 
 import TestEmitter from './testing/test-runner2';
 const runner = new TestEmitter();
@@ -76,4 +76,4 @@ app.listen(process.env.PORT || 3000, function () {
   }
 });
 
-module.exports = app; //for testing
+export default app; //for testing

@@ -29,7 +29,7 @@ class BoardController {
     };
 
     public validateBoardByName = async (name : string) => {
-        console.log(`Validating board by name: ${name}`);
+        // console.log(`Validating board by name: ${name}`);
         const regex = /^[a-z]{1}$/;
 
         if(name.match(regex)) return true;
@@ -37,7 +37,7 @@ class BoardController {
     };
 
     public validateBody = async (body : Body) => {
-        console.log(`Validating body: `, body);
+        // console.log(`Validating body: `, body);
         const { text, delete_password } = body,
                                textType = typeof text,
                            passwordType = typeof delete_password;
