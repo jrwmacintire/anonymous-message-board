@@ -20,3 +20,4 @@ var Message = function Message() {
 
 var _default = Board;
 exports["default"] = _default;
+//# sourceMappingURL=messageController.js.map

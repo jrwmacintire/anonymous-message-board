@@ -1,17 +1,100 @@
 {
-  // See https://go.microsoft.com/fwlink/?LinkId=733558
-  // for the documentation about the tasks.json format
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "type": "typescript",
-      "tsconfig": "tsconfig.json",
-      "problemMatcher": ["$tsc"],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      },
-      "isBackground": true
-    }
-  ]
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build:babel",
+            "command": "npm run babel",
+            "type": "shell",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "group": "build"
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "rm -r public/",
+            "problemMatcher": [],
+            "group": "build"
+        },
+        {
+            "label": "compile-babel",
+            "type": "shell",
+            "group": "build",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "clean",
+                "build:babel"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            }
+        },
+        {
+            "label": "ts-watch-server-reload",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "ts-watch",
+                "server-reload"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "group": "build",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        },
+        {
+            "label": "ts-watch",
+            "type": "shell",
+            "command": "npm run ts-watch",
+            "problemMatcher": [
+                "$tsc-watch"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "group": "build"
+        },
+        {
+            "label": "server-reload",
+            "type": "shell",
+            "command": "npm run start && npm run reload-browser",
+            "problemMatcher": [],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "group": "build"
+        }
+    ]
 }

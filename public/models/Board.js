@@ -31,3 +31,4 @@ var boardSchema = new Schema({
 var _default = mongoose.model('Board', boardSchema);
 
 exports["default"] = _default;
+//# sourceMappingURL=Board.js.map

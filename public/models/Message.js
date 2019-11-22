@@ -35,3 +35,4 @@ var messageSchema = new Schema({
 var _default = mongoose.model('Message', messageSchema);
 
 exports["default"] = _default;
+//# sourceMappingURL=Message.js.map

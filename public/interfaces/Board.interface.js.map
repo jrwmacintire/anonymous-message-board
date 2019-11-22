@@ -1,1 +1,1 @@
-{"version":3,"file":"Board.interface.js","sourceRoot":"","sources":["../../src/interfaces/Board.interface.ts"],"names":[],"mappings":";;AAOC,CAAC"}
+{"version":3,"sources":["../../src/interfaces/Board.interface.ts"],"names":[],"mappings":";;AAOC","sourcesContent":["import { ObjectID } from 'mongodb';\r\n\r\nexport default interface Board {\r\n    _id: ObjectID,\r\n    board_name: string,\r\n    created_on: Date,\r\n    threads: [ObjectID],\r\n};"],"file":"Board.interface.js"}

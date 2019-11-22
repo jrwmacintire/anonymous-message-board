@@ -173,3 +173,4 @@ var BoardController = function BoardController() {
 
 var _default = BoardController;
 exports["default"] = _default;
+//# sourceMappingURL=boardController.js.map

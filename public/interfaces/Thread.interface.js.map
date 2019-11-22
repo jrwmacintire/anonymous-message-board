@@ -1,1 +1,1 @@
-{"version":3,"file":"Thread.interface.js","sourceRoot":"","sources":["../../src/interfaces/Thread.interface.ts"],"names":[],"mappings":";;AAUC,CAAC"}
+{"version":3,"sources":["../../src/interfaces/Thread.interface.ts"],"names":[],"mappings":";;AAUC","sourcesContent":["import { ObjectID } from \"bson\";\r\n\r\nexport default interface Thread {\r\n    _id: ObjectID,\r\n    board_id: ObjectID,\r\n    craeted_on: Date,\r\n    bumped_on: Date,\r\n    replies: [ObjectID],\r\n    reported: boolean,\r\n    delete_password: string\r\n};"],"file":"Thread.interface.js"}

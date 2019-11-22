@@ -10,11 +10,9 @@
 		"start": "nodemon public/index.js",
 		"sass": "sass --watch src/sass:public/style",
 		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/**/*, src/**/*",
-		"typescript-watch": "tsc -watch",
-		"check-types": "tsc",
-		"babel": "babel src --out-dir public --extensions .ts,.tsx --presets @babel/typescript --verbose --allowSyntheticDefaultImports",
-		"babel-watch": "babel --watch src --out-dir public --extensions .ts,.tsx --presets @babel/typescript --verbose",
-		"prelaunch": "npm run babel && npm run check-types"
+		"babel": "babel src -d public --extensions \".ts, .tsx\" --source-maps",
+		"ts": "tsc",
+		"ts-watch": "tsc --watch"
 	},
 	"dependencies": {
 		"@types/chai": "^4.2.4",
@@ -61,6 +59,7 @@
 		"@types/helmet": "0.0.45",
 		"@types/mongodb": "^3.3.10",
 		"@types/mongoose": "^5.5.30",
-		"babel-watch": "^7.0.0"
+		"babel-watch": "^7.0.0",
+		"typescript": "^3.7.2"
 	}
 }

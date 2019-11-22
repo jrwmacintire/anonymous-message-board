@@ -45,3 +45,4 @@ var threadSchema = new Schema({
 var _default = mongoose.model('Thread', threadSchema);
 
 exports["default"] = _default;
+//# sourceMappingURL=Thread.js.map

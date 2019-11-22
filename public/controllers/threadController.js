@@ -26,3 +26,4 @@ var Thread = function Thread() {
 
 var _default = Thread;
 exports["default"] = _default;
+//# sourceMappingURL=threadController.js.map

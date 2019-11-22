@@ -100,3 +100,4 @@ function (_EventEmitter) {
 
 var _default = TestEmitter;
 exports["default"] = _default;
+//# sourceMappingURL=test-runner2.js.map
