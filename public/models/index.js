@@ -11,11 +11,15 @@ exports.connectDB = exports.models = void 0;
 
 var mongoose = _interopRequireWildcard(require("mongoose"));
 
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
 var _Board = _interopRequireDefault(require("./Board"));
 
 var _Thread = _interopRequireDefault(require("./Thread"));
 
 var _Message = _interopRequireDefault(require("./Message"));
+
+_dotenv["default"].config();
 
 var DB_URL = process.env.DB_URL;
 

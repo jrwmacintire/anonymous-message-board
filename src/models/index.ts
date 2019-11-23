@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
-
-const DB_URL = process.env.DB_URL;
+import dotenv from 'dotenv';
+dotenv.config();
+const DB_URL = process.env.DB_URL!;
 
 import Board from './Board';
 import Thread from './Thread';

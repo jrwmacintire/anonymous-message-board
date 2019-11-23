@@ -39,6 +39,8 @@ var _fs = _interopRequireDefault(require("fs"));
 
 var _testRunner = _interopRequireDefault(require("../testing/test-runner2"));
 
+var _keys = require("../helper/keys");
+
 // import runner from '../../test-runner';
 var runner = new _testRunner["default"]();
 
@@ -85,21 +87,47 @@ function _default(app) {
     });
   });
   app.get('/_api/app-info', function (req, res) {
-    var hs = Object.keys(res.header).filter(function (h) {
+    var hs = (0, _keys.keys)(res.header).filter(function (h) {
       return !h.match(/^access-control-\w+/);
     });
-    var hObj = {};
-    hs.forEach(function (h) {
-      hObj[h] = res.header[h];
-    });
-    delete res.header['strict-transport-security'];
+    var hObj = {}; // broken
+    // hs.forEach((h: any) => { hObj[h] = res.header[h] });
+    // delete res.header['strict-transport-security'];
+    // new w/ TS
+
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = hs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var h = _step.value;
+        hObj[h] = res.header[h];
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator["return"] != null) {
+          _iterator["return"]();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
+    ; // delete res.header['strict-transport-security'];
+
     res.json({
       headers: hObj
     });
   });
 }
 
-;
+; // lazy type settings
 
 function testFilter(tests, type, n) {
   var out;

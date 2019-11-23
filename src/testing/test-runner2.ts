@@ -36,7 +36,7 @@ class TestEmitter extends EventEmitter {
 
   run = () => {
     // Run the tests...
-    let tests = [];
+    let tests: object[] = [];
     let context = "";
     let separator = " ~> ";
 

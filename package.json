@@ -11,6 +11,7 @@
 		"sass": "sass --watch src/sass:public/style",
 		"reload-browser": "browser-sync start --proxy localhost:3000 --files 'public/**/*, src/**/*",
 		"babel": "babel src -d public --extensions \".ts, .tsx\" --source-maps",
+		"babel-watch": "babel src -d public --watch --extensions \".ts, .tsx\" --source-maps --verbose",
 		"ts": "tsc",
 		"ts-watch": "tsc --watch"
 	},

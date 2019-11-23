@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/helper/keys.ts"],"names":["keys","obj","Object"],"mappings":";;;;;;;AAAO,SAASA,IAAT,CAAgCC,GAAhC,EAAwD;AAC3D,SAAOC,MAAM,CAACF,IAAP,CAAYC,GAAZ,CAAP;AACH","sourcesContent":["export function keys<O extends object>(obj: O): Array<keyof O> {\r\n    return Object.keys(obj) as Array<keyof O>;\r\n}"],"file":"keys.js"}

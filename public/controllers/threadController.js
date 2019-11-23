@@ -17,7 +17,7 @@ var Thread = function Thread() {
     console.log('attempt to create a new thread!');
   });
   (0, _defineProperty2["default"])(this, "addReply", function (reply) {
-    console.log("adding reply!?");
+    console.log("adding reply!?1");
   });
   (0, _defineProperty2["default"])(this, "deleteReply", function (reply) {});
   (0, _defineProperty2["default"])(this, "deleteThread", function (delete_password) {});

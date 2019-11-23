@@ -32,6 +32,8 @@ import fs from 'fs';
 // import runner from '../../test-runner';
 import TestEmitter from '../testing/test-runner2';
 import express from 'express';
+import { Runner } from 'mocha';
+import { keys } from '../helper/keys';
 const runner = new TestEmitter();
 
 export default function (app: express.Application) {
@@ -61,7 +63,7 @@ export default function (app: express.Application) {
       });
     });
 
-  var error;
+  var error: Error;
   app.get('/_api/get-tests', cors(), function (req: express.Request, res: express.Response, next) {
     console.log(error);
     if (!error && process.env.NODE_ENV === 'test') return next();
@@ -77,24 +79,34 @@ export default function (app: express.Application) {
       });
     });
   app.get('/_api/app-info', function (req: express.Request, res: express.Response) {
-    var hs = Object.keys(res.header)
-      .filter(h => !h.match(/^access-control-\w+/));
-    var hObj = {};
-    hs.forEach(h => { hObj[h] = res.header[h] });
-    delete res.header['strict-transport-security'];
+    var hs = keys(res.header)
+      .filter((h: string) => !h.match(/^access-control-\w+/));
+    var hObj: object = {};
+
+    // broken
+    // hs.forEach((h: any) => { hObj[h] = res.header[h] });
+    // delete res.header['strict-transport-security'];
+
+    // new w/ TS
+    for(const h of hs) {
+      hObj[h] = res.header[h]
+    };
+    // delete res.header['strict-transport-security'];
+
     res.json({ headers: hObj });
   });
 
 };
 
-function testFilter(tests, type, n) {
+// lazy type settings
+function testFilter(tests: any, type: any, n: any) {
   var out;
   switch (type) {
     case 'unit':
-      out = tests.filter(t => t.context.match('Unit Tests'));
+      out = tests.filter((t: any) => t.context.match('Unit Tests'));
       break;
     case 'functional':
-      out = tests.filter(t => t.context.match('Functional Tests') && !t.title.match('#example'));
+      out = tests.filter((t: any) => t.context.match('Functional Tests') && !t.title.match('#example'));
       break;
     default:
       out = tests;

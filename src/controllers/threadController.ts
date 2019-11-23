@@ -10,19 +10,19 @@ class Thread {
     //     console.log(`attempt to find thread by name! ~ name: ${name}`)
     // }
 
-    addReply = (reply) => {
-        console.log(`adding reply!?`);
+    addReply = (reply: string) => {
+        console.log(`adding reply!?1`);
     };
 
-    deleteReply = (reply) => {
-
-    };
-
-    deleteThread = (delete_password) => {
+    deleteReply = (reply: string) => {
 
     };
 
-    reportThread = (report) => {
+    deleteThread = (delete_password: string) => {
+
+    };
+
+    reportThread = (report: string) => {
 
     };
 
