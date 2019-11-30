@@ -15,6 +15,9 @@ import TestEmitter from './testing/test-runner2';
 const runner = new TestEmitter();
 const runTests = runner.run;
 
+// Establish connection to MongoDB with 
+import { connectDB } from './models/index';
+
 const app = express();
 
 app.use(helmet());
@@ -60,20 +63,22 @@ app.use(function(req : Request, res : Response, next) {
 });
 
 //Start our server and tests!
-app.listen(process.env.PORT || 3000, function () {
-  console.log("Listening on port " + process.env.PORT);
-  if(process.env.NODE_ENV==='test') {
-    console.log('Running Tests...');
-    setTimeout(function () {
-      try {
-        runTests();
-      } catch(e) {
-        var error = e;
-          console.log('Tests are not valid:');
-          console.log(error);
-      }
-    }, 1500);
-  }
+connectDB().then(async () => {
+  app.listen(process.env.PORT || 3000, function () {
+    console.log("Listening on port " + process.env.PORT);
+    if(process.env.NODE_ENV==='test') {
+      console.log('Running Tests...');
+      setTimeout(function () {
+        try {
+          runTests();
+        } catch(e) {
+          var error = e;
+            console.log('Tests are not valid:');
+            console.log(error);
+        }
+      }, 1500);
+    }
+  });
 });
 
 export default app; //for testing

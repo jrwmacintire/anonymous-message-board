@@ -17,7 +17,7 @@ class BoardController {
         }
     };
 
-    public findBoardByName = async (name : string) => {
+    public getBoardByName = async (name : string) => {
         console.log(`attempt to find board by name! ~ name: ${name}`);
 
         try {

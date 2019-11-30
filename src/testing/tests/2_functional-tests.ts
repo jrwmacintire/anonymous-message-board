@@ -8,7 +8,7 @@
 
 import chaiHttp from 'chai-http';
 import chai from 'chai';
-const { assert } = chai;
+const { assert, expect } = chai;
 import server from "../../index";
 
 chai.use(chaiHttp);
@@ -26,11 +26,10 @@ suite("Functional Tests", function () {
             delete_password: "password1234"
           })
           .end(function (err, res) {
-            const { board } = res.body;
-            console.log(`board:`, board);
-            assert.equal(res.status, 200);
-            // assert.isArray(body);
-            // assert.isAbove(body.length, 0);
+            console.log(`status:`, res.status);
+            // assert.equal(res.status, 200);
+            assert.isArray(res.body);
+            assert.isAbove(res.body.length, 0)
             done();
           });
       });

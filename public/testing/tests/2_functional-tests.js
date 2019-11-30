@@ -15,7 +15,8 @@ var _index = _interopRequireDefault(require("../../index"));
  *       -----[Keep the tests in the same order!]-----
  *       (if additional are added, keep them at the very end!)
  */
-var assert = _chai["default"].assert;
+var assert = _chai["default"].assert,
+    expect = _chai["default"].expect;
 
 _chai["default"].use(_chaiHttp["default"]);
 
@@ -27,11 +28,10 @@ suite("Functional Tests", function () {
           text: "test text for board",
           delete_password: "password1234"
         }).end(function (err, res) {
-          var board = res.body.board;
-          console.log("board:", board);
-          assert.equal(res.status, 200); // assert.isArray(body);
-          // assert.isAbove(body.length, 0);
-
+          console.log("status:", res.status);
+          assert.equal(res.status, 200);
+          assert.isArray(res.body);
+          assert.isAbove(res.body.length, 0);
           done();
         });
       });

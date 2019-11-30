@@ -1,12 +1,12 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-const Message = require('../models/Message');
+// const Message = require('../models/Message');
 
 const threadSchema = new Schema(
   {
-    thread_name: { type: String, unique: true },
-    board_id: { type: mongoose.Schema.Types.ObjectId },
+    thread_text: { type: String, unique: true },
+    board_id: { type: mongoose.Schema.Types.ObjectId, unique: true },
     created_on: { type: Date, default: new Date() },
     bumped_on: { type: Date, default: new Date() },
     replies: { type: [ mongoose.Schema.Types.ObjectId ], ref: 'Message'},

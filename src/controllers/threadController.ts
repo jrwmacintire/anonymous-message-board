@@ -1,9 +1,16 @@
 import ThreadInterface from '../interfaces/Thread.interface';
+import ResponseBody from '../interfaces/PostThreadBody.interface';
+import Thread from '../models/Thread';
 
-class Thread {
+class ThreadController {
 
-    createNewThread = () => {
+    createNewThread = (board: string, body: ResponseBody) => {
         console.log('attempt to create a new thread!');
+        try {
+            const newThread = Thread.create()
+        } catch(err) {
+            throw err;
+        }
     }
 
     // findThreadByName = (name) => {
@@ -28,4 +35,4 @@ class Thread {
 
 }
 
-export default Thread;
+export default ThreadController;

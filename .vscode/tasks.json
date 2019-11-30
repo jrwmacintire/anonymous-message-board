@@ -59,27 +59,6 @@
             }
         },
         {
-            "label": "ts-watch-server-reload",
-            "type": "shell",
-            "dependsOrder": "sequence",
-            "dependsOn": [
-                "ts-watch",
-                "server-reload"
-            ],
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            },
-            "group": "build",
-            "problemMatcher": [
-                "$tsc"
-            ]
-        },
-        {
             "label": "ts-watch",
             "type": "shell",
             "command": "npm run ts-watch",
@@ -96,20 +75,5 @@
             },
             "group": "build"
         },
-        {
-            "label": "server-reload",
-            "type": "shell",
-            "command": "npm run start && npm run reload-browser",
-            "problemMatcher": [],
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": true
-            },
-            "group": "build"
-        }
     ]
 }

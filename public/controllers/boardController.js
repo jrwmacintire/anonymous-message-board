@@ -51,7 +51,7 @@ var BoardController = function BoardController() {
       }
     }, null, null, [[1, 9]]);
   });
-  (0, _defineProperty2["default"])(this, "findBoardByName", function _callee2(name) {
+  (0, _defineProperty2["default"])(this, "getBoardByName", function _callee2(name) {
     var board;
     return _regenerator["default"].async(function _callee2$(_context2) {
       while (1) {

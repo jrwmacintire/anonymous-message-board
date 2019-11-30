@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
 var _express = _interopRequireDefault(require("express"));
 
 var _bodyParser = _interopRequireDefault(require("body-parser"));
@@ -23,9 +25,12 @@ var _fcctesting = _interopRequireDefault(require("./routes/fcctesting"));
 
 var _testRunner = _interopRequireDefault(require("./testing/test-runner2"));
 
+var _index = require("./models/index");
+
 (0, _dotenv.config)();
 var runner = new _testRunner["default"]();
-var runTests = runner.run;
+var runTests = runner.run; // Establish connection to MongoDB with 
+
 var app = (0, _express["default"])();
 app.use((0, _helmet["default"])());
 app.use(_helmet["default"].referrerPolicy({
@@ -61,21 +66,34 @@ app.use(function (req, res, next) {
   res.status(404).type('text').send("Not found. If you're attempting to access a board, please try something like '/api/threads/{a-z}'.");
 }); //Start our server and tests!
 
-app.listen(process.env.PORT || 3000, function () {
-  console.log("Listening on port " + process.env.PORT);
+(0, _index.connectDB)().then(function _callee() {
+  return _regenerator["default"].async(function _callee$(_context) {
+    while (1) {
+      switch (_context.prev = _context.next) {
+        case 0:
+          app.listen(process.env.PORT || 3000, function () {
+            console.log("Listening on port " + process.env.PORT);
 
-  if (process.env.NODE_ENV === 'test') {
-    console.log('Running Tests...');
-    setTimeout(function () {
-      try {
-        runTests();
-      } catch (e) {
-        var error = e;
-        console.log('Tests are not valid:');
-        console.log(error);
+            if (process.env.NODE_ENV === 'test') {
+              console.log('Running Tests...');
+              setTimeout(function () {
+                try {
+                  runTests();
+                } catch (e) {
+                  var error = e;
+                  console.log('Tests are not valid:');
+                  console.log(error);
+                }
+              }, 1500);
+            }
+          });
+
+        case 1:
+        case "end":
+          return _context.stop();
       }
-    }, 1500);
-  }
+    }
+  });
 });
 var _default = app; //for testing
 
