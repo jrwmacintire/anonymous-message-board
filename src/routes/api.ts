@@ -15,8 +15,10 @@ const boardController = new BoardController();
 import ThreadController from '../controllers/threadController';
 const threadController = new ThreadController();
 import BoardInterface from '../interfaces/Board.interface';
+import ResponseBody from '../interfaces/PostThreadBody.interface';
 import { Request, Response, Application } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
+import { Document } from 'mongoose';
 
 export default function (app: Application) {
 
@@ -32,15 +34,18 @@ export default function (app: Application) {
           if (board) {
             console.log(`Board FOUND:`, board);
 
-            // start: 
-
-            // end: array of objects with critical info removed
+            // start: array of ObjectIDs from board's 'threads' array
+            //      : take 10 most recently bumped thread IDs from (index 0-9)
+            //      : query all docs with given thread IDs from DB
+            //      : parse raw thread docs into objects 
+            //      : filter out 'delete_password' or 'reported' values from response array
+            //   end: parsed/filtered array of thread doc objects
 
             res.send([]);
           } else {
             console.log('Board not found - prepare to create board!');
             const newBoard = await boardController.createNewBoard(boardName);
-            res.json(newBoard);
+            res.send([]);
           }
 
           // validate boardName
@@ -63,7 +68,7 @@ export default function (app: Application) {
     .post(async function (req: Request, res: Response) {
       const boardName: string = req.params.board;
       const body = {
-        text: req.body.text,
+        thread_text: req.body.thread_text,
         delete_password: req.body.delete_password
       };
 
@@ -76,7 +81,7 @@ export default function (app: Application) {
         validatedBody: ResponseBody = valid[1];
 
       interface ResponseBody {
-        text: boolean,
+        thread_text: boolean,
         delete_password: boolean
       };
 
@@ -88,19 +93,34 @@ export default function (app: Application) {
         const board = await boardController.getBoardByName(boardName);
 
         // and both 'body' properties are valid
-        if (validatedBody.text && validatedBody.delete_password) {
+        if (validatedBody.thread_text && validatedBody.delete_password && board !== null) {
 
-          const thread = await threadController.createNewThread(boardName, body);
+          if(board) {
+            const thread = await threadController.createNewThread(boardName, body, board.id);
 
-          // then redirect to the newly created thread's board.
-          res.redirect(303, `/api/threads/${boardName}`);
+            const update = {
+              $push: {
+                "threads": thread._id
+              }
+            };
+
+            await boardController.updateBoard(board, thread._id);
+            // update board with thread's id in 'threads' array
+            
+            // then redirect to the newly created thread's board.
+            res.redirect(303, `/api/threads/${boardName}`);
+          } else {
+            res.send('Redirect failed, check if board exists...');
+          }
         }
         // the 'body' contains invalid info
         else {
-          if (!validatedBody.text && !validatedBody.delete_password) {
+          if(board === null || board === undefined) {
+            res.status(400).send('Board not found. Please create or search for a new board.');
+          } else if (!validatedBody.thread_text && !validatedBody.delete_password) {
             // Error: all inputs invalid
             res.status(400).send('Please ensure all input fields are filled out and try again.');
-          } else if (!validatedBody.text) {
+          } else if (!validatedBody.thread_text) {
             // Error: 'text' field is invalid
             res.status(400).send('Invalid input for text. Please try again.');
           } else if (!validatedBody.delete_password) {

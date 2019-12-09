@@ -5,8 +5,8 @@ const Schema = mongoose.Schema;
 
 const threadSchema = new Schema(
   {
-    thread_text: { type: String, unique: true },
-    board_id: { type: mongoose.Schema.Types.ObjectId, unique: true },
+    thread_text: { type: String },
+    board_id: { type: mongoose.Schema.Types.ObjectId },
     created_on: { type: Date, default: new Date() },
     bumped_on: { type: Date, default: new Date() },
     replies: { type: [ mongoose.Schema.Types.ObjectId ], ref: 'Message'},

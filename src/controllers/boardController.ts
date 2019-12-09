@@ -1,5 +1,7 @@
 import Board from "../models/Board";
 import Body from '../interfaces/PostThreadBody.interface';
+import BoardInterface from '../interfaces/Board.interface';
+import { ObjectID } from "bson";
 
 class BoardController {
 
@@ -28,6 +30,18 @@ class BoardController {
         }
     };
 
+    public updateBoard = async (board: BoardInterface, threadId: ObjectID) => {
+        try {
+            const { threads } = board;
+            console.log(`Updating board! ~ threads: `, threads);
+            board.threads.push(threadId);
+            board.save();
+            return board;
+        } catch(err) {
+            throw err;
+        }
+    };
+
     public validateBoardByName = async (name : string) => {
         // console.log(`Validating board by name: ${name}`);
         const regex = /^[a-z]{1}$/;
@@ -38,12 +52,12 @@ class BoardController {
 
     public validateBody = async (body : Body) => {
         // console.log(`Validating body: `, body);
-        const { text, delete_password } = body,
-                               textType = typeof text,
+        const { thread_text, delete_password } = body,
+                               textType = typeof thread_text,
                            passwordType = typeof delete_password;
             
         const validated = {
-            text: textType === 'string' && text !== '' ? true : false,
+            thread_text: textType === 'string' && thread_text !== '' ? true : false,
             delete_password: passwordType === 'string' && delete_password !== '' ? true : false
         };
 

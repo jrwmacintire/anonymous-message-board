@@ -59,7 +59,7 @@
 		"@babel/runtime": "^7.7.2",
 		"@types/helmet": "0.0.45",
 		"@types/mongodb": "^3.3.10",
-		"@types/mongoose": "^5.5.30",
+		"@types/mongoose": "^5.5.32",
 		"babel-watch": "^7.0.0",
 		"typescript": "^3.7.2"
 	}

@@ -25,19 +25,24 @@ suite("Functional Tests", function () {
     suite("POST", function () {
       test("Every field filled in", function (done) {
         _chai["default"].request(_index["default"]).post("/api/threads/t").send({
-          text: "test text for board",
+          thread_text: "test text for board",
           delete_password: "password1234"
         }).end(function (err, res) {
-          console.log("status:", res.status);
-          assert.equal(res.status, 200);
+          console.log("status:", res.status); // assert.equal(res.status, 200);
+
+          var firstDoc = res.body[0];
           assert.isArray(res.body);
-          assert.isAbove(res.body.length, 0);
+          assert.isAbove(res.body.length, 0); // tests below are newer
+
+          assert.equal(firstDoc.thread_text, "test text for board");
+          assert.isNull(firstDoc.delete_password);
+          assert.isNull(firstDoc.reported);
           done();
         });
       });
       test("Invalid board name.", function (done) {
         _chai["default"].request(_index["default"]).post("/api/threads/t2").send({
-          text: "test text for board",
+          thread_text: "test text for board",
           delete_password: "password1234"
         }).end(function (err, res) {
           var text = res.text;
@@ -48,7 +53,7 @@ suite("Functional Tests", function () {
       });
       test("Missing 'board' field in input.", function (done) {
         _chai["default"].request(_index["default"]).post("/api/threads/").send({
-          text: "test text for board",
+          thread_text: "test text for board",
           delete_password: "password1234"
         }).end(function (err, res) {
           var text = res.text;
@@ -59,7 +64,7 @@ suite("Functional Tests", function () {
       });
       test("Missing 'text' field in input.", function (done) {
         _chai["default"].request(_index["default"]).post("/api/threads/t").send({
-          text: "",
+          thread_text: "",
           delete_password: "password1234"
         }).end(function (err, res) {
           var text = res.text;
@@ -70,7 +75,7 @@ suite("Functional Tests", function () {
       });
       test("Missing 'delete_password' field in input.", function (done) {
         _chai["default"].request(_index["default"]).post("/api/threads/t").send({
-          text: "test text for board",
+          thread_text: "test text for board",
           delete_password: ""
         }).end(function (err, res) {
           var text = res.text;

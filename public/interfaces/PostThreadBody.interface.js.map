@@ -1,1 +1,1 @@
-{"version":3,"sources":["../../src/interfaces/PostThreadBody.interface.ts"],"names":[],"mappings":";;AAGC","sourcesContent":["export default interface PostThreadBody {\r\n    text: string,\r\n    delete_password: string\r\n};"],"file":"PostThreadBody.interface.js"}
+{"version":3,"sources":["../../src/interfaces/PostThreadBody.interface.ts"],"names":[],"mappings":";;AAGC","sourcesContent":["export default interface PostThreadBody {\r\n    thread_text: string,\r\n    delete_password: string\r\n};"],"file":"PostThreadBody.interface.js"}

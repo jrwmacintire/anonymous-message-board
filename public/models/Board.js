@@ -18,10 +18,11 @@ var boardSchema = new Schema({
     type: String,
     unique: true
   },
-  threads: {
-    types: [mongoose.Schema.Types.ObjectId],
-    "default": []
-  },
+  threads: [{
+    type: mongoose.Schema.Types.ObjectId,
+    "default": [],
+    ref: 'Thread'
+  }],
   created_on: {
     type: Date,
     "default": new Date()

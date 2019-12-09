@@ -9,14 +9,11 @@ exports["default"] = void 0;
 
 var mongoose = _interopRequireWildcard(require("mongoose"));
 
-var Schema = mongoose.Schema;
-
-var Message = require('../models/Message');
+var Schema = mongoose.Schema; // const Message = require('../models/Message');
 
 var threadSchema = new Schema({
-  thread_name: {
-    type: String,
-    unique: true
+  thread_text: {
+    type: String
   },
   board_id: {
     type: mongoose.Schema.Types.ObjectId

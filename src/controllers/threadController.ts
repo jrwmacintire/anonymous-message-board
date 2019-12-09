@@ -1,13 +1,16 @@
 import ThreadInterface from '../interfaces/Thread.interface';
 import ResponseBody from '../interfaces/PostThreadBody.interface';
 import Thread from '../models/Thread';
+import { ObjectId } from 'bson';
 
 class ThreadController {
 
-    createNewThread = (board: string, body: ResponseBody) => {
+    createNewThread = async (board: string, body: ResponseBody, boardId: ObjectId) => {
         console.log('attempt to create a new thread!');
         try {
-            const newThread = Thread.create()
+            const threadBody = { ...body, boardId: boardId };
+            const newThread = await Thread.create(threadBody);
+            return newThread;
         } catch(err) {
             throw err;
         }

@@ -80,73 +80,84 @@ var BoardController = function BoardController() {
       }
     }, null, null, [[1, 8]]);
   });
-  (0, _defineProperty2["default"])(this, "validateBoardByName", function _callee3(name) {
-    var regex;
+  (0, _defineProperty2["default"])(this, "updateBoard", function _callee3(board, threadId) {
+    var threads;
     return _regenerator["default"].async(function _callee3$(_context3) {
       while (1) {
         switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.prev = 0;
+            threads = board.threads;
+            console.log("Updating board! ~ threads: ", threads);
+            board.threads.push(threadId);
+            board.save();
+            return _context3.abrupt("return", board);
+
+          case 8:
+            _context3.prev = 8;
+            _context3.t0 = _context3["catch"](0);
+            throw _context3.t0;
+
+          case 11:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, null, null, [[0, 8]]);
+  });
+  (0, _defineProperty2["default"])(this, "validateBoardByName", function _callee4(name) {
+    var regex;
+    return _regenerator["default"].async(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
           case 0:
             // console.log(`Validating board by name: ${name}`);
             regex = /^[a-z]{1}$/;
 
             if (!name.match(regex)) {
-              _context3.next = 5;
+              _context4.next = 5;
               break;
             }
 
-            return _context3.abrupt("return", true);
+            return _context4.abrupt("return", true);
 
           case 5:
-            return _context3.abrupt("return", false);
+            return _context4.abrupt("return", false);
 
           case 6:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    });
-  });
-  (0, _defineProperty2["default"])(this, "validateBody", function _callee4(body) {
-    var text, delete_password, textType, passwordType, validated;
-    return _regenerator["default"].async(function _callee4$(_context4) {
-      while (1) {
-        switch (_context4.prev = _context4.next) {
-          case 0:
-            // console.log(`Validating body: `, body);
-            text = body.text, delete_password = body.delete_password, textType = (0, _typeof2["default"])(text), passwordType = (0, _typeof2["default"])(delete_password);
-            validated = {
-              text: textType === 'string' && text !== '' ? true : false,
-              delete_password: passwordType === 'string' && delete_password !== '' ? true : false
-            };
-            return _context4.abrupt("return", validated);
-
-          case 3:
           case "end":
             return _context4.stop();
         }
       }
     });
   });
-  (0, _defineProperty2["default"])(this, "reportBoard", function _callee5(report) {
+  (0, _defineProperty2["default"])(this, "validateBody", function _callee5(body) {
+    var thread_text, delete_password, textType, passwordType, validated;
     return _regenerator["default"].async(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
-            console.log("reporting board -> report: ".concat(report));
+            // console.log(`Validating body: `, body);
+            thread_text = body.thread_text, delete_password = body.delete_password, textType = (0, _typeof2["default"])(thread_text), passwordType = (0, _typeof2["default"])(delete_password);
+            validated = {
+              thread_text: textType === 'string' && thread_text !== '' ? true : false,
+              delete_password: passwordType === 'string' && delete_password !== '' ? true : false
+            };
+            return _context5.abrupt("return", validated);
 
-          case 1:
+          case 3:
           case "end":
             return _context5.stop();
         }
       }
     });
   });
-  (0, _defineProperty2["default"])(this, "deleteBoard", function _callee6(deletePassword) {
+  (0, _defineProperty2["default"])(this, "reportBoard", function _callee6(report) {
     return _regenerator["default"].async(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            console.log("deleting board with -> ".concat(deletePassword));
+            console.log("reporting board -> report: ".concat(report));
 
           case 1:
           case "end":
@@ -155,16 +166,30 @@ var BoardController = function BoardController() {
       }
     });
   });
-  (0, _defineProperty2["default"])(this, "addThread", function _callee7(threadName) {
+  (0, _defineProperty2["default"])(this, "deleteBoard", function _callee7(deletePassword) {
     return _regenerator["default"].async(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
+          case 0:
+            console.log("deleting board with -> ".concat(deletePassword));
+
+          case 1:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    });
+  });
+  (0, _defineProperty2["default"])(this, "addThread", function _callee8(threadName) {
+    return _regenerator["default"].async(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
           case 0:
             console.log("add a '".concat(threadName, "' thread to board"));
 
           case 1:
           case "end":
-            return _context7.stop();
+            return _context8.stop();
         }
       }
     });

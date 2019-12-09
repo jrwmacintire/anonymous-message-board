@@ -1,4 +1,4 @@
 export default interface PostThreadBody {
-    text: string,
+    thread_text: string,
     delete_password: string
 };
