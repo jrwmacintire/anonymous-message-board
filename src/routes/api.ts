@@ -15,6 +15,7 @@ const boardController = new BoardController();
 import ThreadController from '../controllers/threadController';
 const threadController = new ThreadController();
 import BoardInterface from '../interfaces/Board.interface';
+import ThreadInterface from '../interfaces/Thread.interface';
 import ResponseBody from '../interfaces/PostThreadBody.interface';
 import { Request, Response, Application } from 'express';
 import { ParamsDictionary } from 'express-serve-static-core';
@@ -32,7 +33,7 @@ export default function (app: Application) {
         if (validBoardName) {
           const board = await boardController.getBoardByName(boardName);
           if (board) {
-            console.log(`Board FOUND:`, board);
+            // console.log(`Board FOUND:`, board);
 
             // start: array of ObjectIDs from board's 'threads' array
             //      : take 10 most recently bumped thread IDs from (index 0-9)
@@ -41,11 +42,21 @@ export default function (app: Application) {
             //      : filter out 'delete_password' or 'reported' values from response array
             //   end: parsed/filtered array of thread doc objects
 
-            res.send([]);
+            const bumpedThreads = await threadController.getThreadsBySortString('-created_on', 10);
+            const filteredThreads = bumpedThreads.map((thread: ThreadInterface) => {
+              return {
+                _id: thread._id,
+                text: thread.thread_text,
+                created_on: thread.created_on,
+                bumped_on: thread.bumped_on,
+                replycount: thread.replies.length
+              }
+            });
+            res.send(filteredThreads);
           } else {
-            console.log('Board not found - prepare to create board!');
+            // console.log('Board not found - prepare to create board!');
             const newBoard = await boardController.createNewBoard(boardName);
-            res.send([]);
+            res.send();
           }
 
           // validate boardName
@@ -56,7 +67,7 @@ export default function (app: Application) {
           // res.sendFile(process.cwd() + `/src/views/board.html`);
 
         } else { // Invalid board name, send error response
-          res.status(400).send('Error: invalid board name');
+          res.status(400).send('A board with that name could not be found. Please enter a different board name.');
         }
 
       } catch (err) {
@@ -97,12 +108,6 @@ export default function (app: Application) {
 
           if(board) {
             const thread = await threadController.createNewThread(boardName, body, board.id);
-
-            const update = {
-              $push: {
-                "threads": thread._id
-              }
-            };
 
             await boardController.updateBoard(board, thread._id);
             // update board with thread's id in 'threads' array
@@ -146,10 +151,14 @@ export default function (app: Application) {
       // res.redirect(307, `/api/threads/${boardName}`);
 
     })
-    .put(function (req: Request, res: Response) {
+    .put(async function (req: Request, res: Response) {
       res.send(req.body);
     })
-    .delete(function (req: Request, res: Response) {
+    .delete(async function (req: Request, res: Response) {
+
+      const { body } = req;
+      console.log(`body of delete request: `, body);
+      const threadToDelete = await threadController.getThreadByID(body.thread_id);
       res.send('Request to delete a thread?');
     });
 

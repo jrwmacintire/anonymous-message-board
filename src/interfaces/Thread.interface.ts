@@ -1,12 +1,13 @@
 import { ObjectID } from "bson";
-import { MongooseDocument } from "mongoose";
-
-export default interface Thread extends MongooseDocument {
+import { Document } from "mongoose";
+ 
+export default interface Thread extends Document {
     _id: ObjectID,
     board_id: ObjectID,
-    craeted_on: Date,
+    created_on: Date,
     bumped_on: Date,
     replies: [ObjectID],
     reported: boolean,
-    delete_password: string
+    delete_password: string,
+    thread_text: string
 };

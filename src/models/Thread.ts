@@ -1,7 +1,9 @@
 import * as mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
-// const Message = require('../models/Message');
+import ThreadInterface from '../interfaces/Thread.interface';
+
+const Message = require('../models/Message');
 
 const threadSchema = new Schema(
   {
@@ -15,4 +17,4 @@ const threadSchema = new Schema(
   }
 );
 
-export default mongoose.model('Thread', threadSchema);
+export default mongoose.model<ThreadInterface>('Thread', threadSchema);

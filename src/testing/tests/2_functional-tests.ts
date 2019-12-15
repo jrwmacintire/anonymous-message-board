@@ -11,6 +11,11 @@ import chai from 'chai';
 const { assert, expect } = chai;
 import server from "../../index";
 
+import ThreadController from '../../controllers/threadController';
+import { threadId } from 'worker_threads';
+import { ObjectID } from 'bson';
+const threadController = new ThreadController();
+
 chai.use(chaiHttp);
 
 suite("Functional Tests", function () {
@@ -27,14 +32,22 @@ suite("Functional Tests", function () {
           })
           .end(function (err, res) {
             console.log(`status:`, res.status);
-            // assert.equal(res.status, 200);
-            const firstDoc = res.body[0];
-            assert.isArray(res.body);
-            assert.isAbove(res.body.length, 0);
-            // tests below are newer
-            assert.equal(firstDoc.thread_text, "test text for board");
-            assert.isNull(firstDoc.delete_password);
-            assert.isNull(firstDoc.reported);
+            const { body } = res;
+            const firstDoc  = body[0],
+                  secondDoc = body[1],
+                  thirdDoc  = body[2];
+            assert.isArray(body);
+            assert.isAbove(body.length, 0);
+            assert.isAtMost(body.length, 10);
+            assert.equal(firstDoc.text, "test text for board");            
+            assert.isUndefined(firstDoc.delete_password);
+            assert.isUndefined(firstDoc.reported);
+            assert.isUndefined(secondDoc.delete_password);
+            assert.isUndefined(secondDoc.reported);
+            assert.isUndefined(thirdDoc.delete_password);
+            assert.isUndefined(thirdDoc.reported);
+            assert.isAbove(Date.parse(firstDoc.created_on), Date.parse(secondDoc.created_on));
+            assert.isAbove(Date.parse(secondDoc.created_on), Date.parse(thirdDoc.created_on));
             done();
           });
       });
@@ -146,7 +159,8 @@ suite("Functional Tests", function () {
             assert.isArray(body);
             assert.isObject(firstThread);
             assert.doesNotHaveAnyKeys(body, ["reported", "delete_password"]);
-            assert.isTrue(body.length > 0);
+            assert.isBelow(body.length, 11);
+            assert.isAbove(body.length, 0);
             done();
           });
       });
@@ -156,13 +170,13 @@ suite("Functional Tests", function () {
           .request(server)
           .get("/api/threads/t2")
           .end(function (err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 400);
             assert.equal(
-              body.message,
+              text,
               "A board with that name could not be found. Please enter a different board name."
             );
-            assert.isString(body.board);
+            assert.isString(text);
             done();
           });
       });
@@ -172,22 +186,34 @@ suite("Functional Tests", function () {
           .request(server)
           .get("/api/threads/")
           .end(function (err, res) {
-            const { body } = res;
+            const { text } = res;
             assert.equal(res.status, 404);
-            assert.equal(body.message, `Invalid/empty input for 'board' name.`);
+            assert.equal(text, `Not found. If you're attempting to access a board, please try something like '/api/threads/{a-z}'.`);
             done();
           });
       });
     });
 
     suite("DELETE", function () {
+
+      let threadID: ObjectID;
+
+      this.beforeAll(async function(done) {
+        threadController.getThreadForDeleteTest()
+          .then(thread => {
+            threadID = thread!._id;
+          })
+          .catch(done);
+        done();
+      });
+
       test(`Delete thread with 'delete_password' and 'thread_id'.`, function (done) {
         chai
           .request(server)
           .delete("/api/threads/t")
           .send({
             delete_password: "password1234",
-            thread_id: "123456789"
+            thread_id: threadID
           })
           .end(function (err, res) {
             const { text } = res;
@@ -203,10 +229,10 @@ suite("Functional Tests", function () {
       test(`Delete failed due to invalid board name.`, function (done) {
         chai
           .request(server)
-          .delete("/api/threads/t")
+          .delete("/api/threads/t2")
           .send({
             delete_password: "password1234",
-            thread_id: "123456789"
+            thread_id: threadID
           })
           .end(function (err, res) {
             const { text } = res;
@@ -244,7 +270,7 @@ suite("Functional Tests", function () {
           .delete("/api/threads/t")
           .send({
             delete_password: "pas214rd1234",
-            thread_id: "123456789"
+            thread_id: threadID
           })
           .end(function (err, res) {
             const { text } = res;

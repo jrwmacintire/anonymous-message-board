@@ -6,12 +6,12 @@ import { ObjectID } from "bson";
 class BoardController {
 
     public createNewBoard = async (name : string) => {
-        console.log('attempt to create a new board!');
+        // console.log('attempt to create a new board!');
         
         try {
             const newBoard = await new Board({ board_name : name });
             newBoard.save(function(doc : Document) {
-                console.log(`New '${name}' board created!`);
+                // console.log(`New '${name}' board created!`);
             });
             return newBoard;
         } catch(err) {
@@ -20,7 +20,7 @@ class BoardController {
     };
 
     public getBoardByName = async (name : string) => {
-        console.log(`attempt to find board by name! ~ name: ${name}`);
+        // console.log(`attempt to find board by name! ~ name: ${name}`);
 
         try {
             const board = await Board.findOne({ board_name: name });
@@ -33,7 +33,7 @@ class BoardController {
     public updateBoard = async (board: BoardInterface, threadId: ObjectID) => {
         try {
             const { threads } = board;
-            console.log(`Updating board! ~ threads: `, threads);
+            // console.log(`Updating board! ~ threads: `, threads);
             board.threads.push(threadId);
             board.save();
             return board;

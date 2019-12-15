@@ -2,11 +2,15 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
+
 var _chaiHttp = _interopRequireDefault(require("chai-http"));
 
 var _chai = _interopRequireDefault(require("chai"));
 
 var _index = _interopRequireDefault(require("../../index"));
+
+var _threadController = _interopRequireDefault(require("../../controllers/threadController"));
 
 /*
  *
@@ -17,6 +21,7 @@ var _index = _interopRequireDefault(require("../../index"));
  */
 var assert = _chai["default"].assert,
     expect = _chai["default"].expect;
+var threadController = new _threadController["default"]();
 
 _chai["default"].use(_chaiHttp["default"]);
 
@@ -28,15 +33,23 @@ suite("Functional Tests", function () {
           thread_text: "test text for board",
           delete_password: "password1234"
         }).end(function (err, res) {
-          console.log("status:", res.status); // assert.equal(res.status, 200);
-
-          var firstDoc = res.body[0];
-          assert.isArray(res.body);
-          assert.isAbove(res.body.length, 0); // tests below are newer
-
-          assert.equal(firstDoc.thread_text, "test text for board");
-          assert.isNull(firstDoc.delete_password);
-          assert.isNull(firstDoc.reported);
+          console.log("status:", res.status);
+          var body = res.body;
+          var firstDoc = body[0],
+              secondDoc = body[1],
+              thirdDoc = body[2];
+          assert.isArray(body);
+          assert.isAbove(body.length, 0);
+          assert.isAtMost(body.length, 10);
+          assert.equal(firstDoc.text, "test text for board");
+          assert.isUndefined(firstDoc.delete_password);
+          assert.isUndefined(firstDoc.reported);
+          assert.isUndefined(secondDoc.delete_password);
+          assert.isUndefined(secondDoc.reported);
+          assert.isUndefined(thirdDoc.delete_password);
+          assert.isUndefined(thirdDoc.reported);
+          assert.isAbove(Date.parse(firstDoc.created_on), Date.parse(secondDoc.created_on));
+          assert.isAbove(Date.parse(secondDoc.created_on), Date.parse(thirdDoc.created_on));
           done();
         });
       });
@@ -104,33 +117,52 @@ suite("Functional Tests", function () {
           assert.isArray(body);
           assert.isObject(firstThread);
           assert.doesNotHaveAnyKeys(body, ["reported", "delete_password"]);
-          assert.isTrue(body.length > 0);
+          assert.isBelow(body.length, 11);
+          assert.isAbove(body.length, 0);
           done();
         });
       });
       test("Invalid input, can't find a board with that name.", function (done) {
         _chai["default"].request(_index["default"]).get("/api/threads/t2").end(function (err, res) {
-          var body = res.body;
+          var text = res.text;
           assert.equal(res.status, 400);
-          assert.equal(body.message, "A board with that name could not be found. Please enter a different board name.");
-          assert.isString(body.board);
+          assert.equal(text, "A board with that name could not be found. Please enter a different board name.");
+          assert.isString(text);
           done();
         });
       });
       test("Invalid input, empty input for board name.", function (done) {
         _chai["default"].request(_index["default"]).get("/api/threads/").end(function (err, res) {
-          var body = res.body;
+          var text = res.text;
           assert.equal(res.status, 404);
-          assert.equal(body.message, "Invalid/empty input for 'board' name.");
+          assert.equal(text, "Not found. If you're attempting to access a board, please try something like '/api/threads/{a-z}'.");
           done();
         });
       });
     });
     suite("DELETE", function () {
+      var threadID;
+      this.beforeAll(function _callee(done) {
+        return _regenerator["default"].async(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                threadController.getThreadForDeleteTest().then(function (thread) {
+                  threadID = thread._id;
+                })["catch"](done);
+                done();
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        });
+      });
       test("Delete thread with 'delete_password' and 'thread_id'.", function (done) {
         _chai["default"].request(_index["default"])["delete"]("/api/threads/t").send({
           delete_password: "password1234",
-          thread_id: "123456789"
+          thread_id: threadID
         }).end(function (err, res) {
           var text = res.text;
           assert.equal(res.status, 200);
@@ -139,9 +171,9 @@ suite("Functional Tests", function () {
         });
       });
       test("Delete failed due to invalid board name.", function (done) {
-        _chai["default"].request(_index["default"])["delete"]("/api/threads/t").send({
+        _chai["default"].request(_index["default"])["delete"]("/api/threads/t2").send({
           delete_password: "password1234",
-          thread_id: "123456789"
+          thread_id: threadID
         }).end(function (err, res) {
           var text = res.text;
           assert.equal(res.status, 400);
@@ -163,7 +195,7 @@ suite("Functional Tests", function () {
       test("Delete failed due to invalid 'delete_password'.", function (done) {
         _chai["default"].request(_index["default"])["delete"]("/api/threads/t").send({
           delete_password: "pas214rd1234",
-          thread_id: "123456789"
+          thread_id: threadID
         }).end(function (err, res) {
           var text = res.text;
           assert.equal(res.status, 400);

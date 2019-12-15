@@ -25,31 +25,29 @@ var BoardController = function BoardController() {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            console.log('attempt to create a new board!');
-            _context.prev = 1;
-            _context.next = 4;
+            _context.prev = 0;
+            _context.next = 3;
             return _regenerator["default"].awrap(new _Board["default"]({
               board_name: name
             }));
 
-          case 4:
+          case 3:
             newBoard = _context.sent;
-            newBoard.save(function (doc) {
-              console.log("New '".concat(name, "' board created!"));
+            newBoard.save(function (doc) {// console.log(`New '${name}' board created!`);
             });
             return _context.abrupt("return", newBoard);
 
-          case 9:
-            _context.prev = 9;
-            _context.t0 = _context["catch"](1);
+          case 8:
+            _context.prev = 8;
+            _context.t0 = _context["catch"](0);
             throw _context.t0;
 
-          case 12:
+          case 11:
           case "end":
             return _context.stop();
         }
       }
-    }, null, null, [[1, 9]]);
+    }, null, null, [[0, 8]]);
   });
   (0, _defineProperty2["default"])(this, "getBoardByName", function _callee2(name) {
     var board;
@@ -57,28 +55,27 @@ var BoardController = function BoardController() {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log("attempt to find board by name! ~ name: ".concat(name));
-            _context2.prev = 1;
-            _context2.next = 4;
+            _context2.prev = 0;
+            _context2.next = 3;
             return _regenerator["default"].awrap(_Board["default"].findOne({
               board_name: name
             }));
 
-          case 4:
+          case 3:
             board = _context2.sent;
             return _context2.abrupt("return", board);
 
-          case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2["catch"](1);
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2["catch"](0);
             throw _context2.t0;
 
-          case 11:
+          case 10:
           case "end":
             return _context2.stop();
         }
       }
-    }, null, null, [[1, 8]]);
+    }, null, null, [[0, 7]]);
   });
   (0, _defineProperty2["default"])(this, "updateBoard", function _callee3(board, threadId) {
     var threads;
@@ -87,23 +84,23 @@ var BoardController = function BoardController() {
         switch (_context3.prev = _context3.next) {
           case 0:
             _context3.prev = 0;
-            threads = board.threads;
-            console.log("Updating board! ~ threads: ", threads);
+            threads = board.threads; // console.log(`Updating board! ~ threads: `, threads);
+
             board.threads.push(threadId);
             board.save();
             return _context3.abrupt("return", board);
 
-          case 8:
-            _context3.prev = 8;
+          case 7:
+            _context3.prev = 7;
             _context3.t0 = _context3["catch"](0);
             throw _context3.t0;
 
-          case 11:
+          case 10:
           case "end":
             return _context3.stop();
         }
       }
-    }, null, null, [[0, 8]]);
+    }, null, null, [[0, 7]]);
   });
   (0, _defineProperty2["default"])(this, "validateBoardByName", function _callee4(name) {
     var regex;

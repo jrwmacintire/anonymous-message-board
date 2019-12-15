@@ -13,4 +13,4 @@ const boardSchema = new Schema(
   }
 );
 
-export default mongoose.model<BoardInterface>('Board', boardSchema);
+export default mongoose.model<BoardInterface>('Board', boardSchema); 
