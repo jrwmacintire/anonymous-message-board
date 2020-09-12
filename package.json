@@ -30,7 +30,7 @@
 		"mocha": "^3.5.3",
 		"mongodb": "^2.2.36",
 		"mongoose": "^5.7.10",
-		"node-fetch": "^2.6.0",
+		"node-fetch": "^2.6.1",
 		"node-sass": "^4.13.0",
 		"zombie": "^5.0.5"
 	},
