@@ -31,7 +31,7 @@
 		"mongodb": "^2.2.36",
 		"mongoose": "^5.7.10",
 		"node-fetch": "^2.6.0",
-		"node-sass": "^4.13.0",
+		"node-sass": "^7.0.0",
 		"zombie": "^5.0.5"
 	},
 	"engines": {
